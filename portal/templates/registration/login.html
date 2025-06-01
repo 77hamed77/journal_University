@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}تسجيل الدخول{% endblock %}
+
+{% block content %}
+<div class="custom-container">
+    <h2 class="form-title">تسجيل الدخول</h2>
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            <ul class="error-list">
+                {% for error in form.non_field_errors %}
+                    <li dir="rtl">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    
+    <form method="post" dir="rtl" class="styled-form">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }} {% if field.field.required %}<span class="required-asterisk">*</span>{% endif %}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <ul class="field-error-list">
+                        {% for error in field.errors %}
+                            <li dir="rtl">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <button type="submit" class="submit-button">دخـــول</button>
+    </form>
+    <p class="register-link">ليس لديك حساب؟ <a href="{% url 'portal:register_researcher' %}">سجل كباحث جديد</a></p>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<style>
+    body { /* يمكنك وضع هذا في base.html إذا أردت تغيير خلفية الصفحة كلها */
+        background-color: #e9ecef; /* خلفية رمادية فاتحة للصفحة */
+    }
+
+    .custom-container {
+        max-width: 650px; /* زيادة عرض الفورم */
+        margin: 50px auto; /* زيادة الهامش العلوي والسفلي */
+        padding: 40px; /* زيادة الحشوة الداخلية */
+        background-color: #ffffff; /* خلفية بيضاء نقية للحاوية */
+        border-radius: 12px; /* زوايا أكثر دائرية */
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* ظل أكثر بروزًا */
+        border: 1px solid #dee2e6; /* حد خفيف */
+    }
+
+    .form-title {
+        text-align: center;
+        margin-bottom: 35px; /* زيادة المسافة السفلية */
+        color: #343a40; /* لون عنوان أغمق قليلاً */
+        font-size: 2.2rem; /* تكبير حجم الخط */
+        font-weight: 600;
+    }
+
+    /* أنماط رسائل الخطأ العامة */
+    .alert.alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 15px; /* زيادة الحشوة */
+        border: 1px solid #f5c6cb;
+        border-radius: 6px; /* زوايا دائرية */
+        margin-bottom: 25px; /* زيادة المسافة السفلية */
+    }
+
+    .alert.alert-danger .error-list {
+        margin-bottom: 0;
+        padding-right: 20px; /* ليتناسب مع dir="rtl" */
+        list-style-type: none;
+        font-size: 0.95rem;
+    }
+    
+    .styled-form .form-group {
+        margin-bottom: 25px; /* زيادة المسافة بين حقول الفورم */
+    }
+
+    .styled-form .form-label {
+        display: block;
+        margin-bottom: 8px; /* زيادة المسافة بين التسمية والحقل */
+        font-weight: 600; /* خط أعرض للتسمية */
+        color: #495057; /* لون أغمق للتسمية */
+        font-size: 1rem; /* تكبير طفيف لحجم خط التسمية */
+    }
+
+    .required-asterisk {
+        color: #dc3545; /* لون أحمر مميز للنجمة */
+        font-weight: bold;
+    }
+
+    /* أنماط حقول الإدخال والتحديد */
+    .styled-form input[type="text"],
+    .styled-form input[type="email"],
+    .styled-form input[type="password"],
+    .styled-form select {
+        width: 100%; /* استخدام العرض الكامل مع box-sizing */
+        padding: 12px 15px; /* زيادة الحشوة داخل الحقول */
+        border: 1px solid #ced4da; /* لون حد أفتح قليلاً */
+        border-radius: 6px; /* زوايا أكثر دائرية */
+        box-sizing: border-box; 
+        font-size: 1rem; /* تكبير حجم الخط داخل الحقول */
+        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* انتقال ناعم */
+    }
+
+    .styled-form input[type="text"]:focus,
+    .styled-form input[type="email"]:focus,
+    .styled-form input[type="password"]:focus,
+    .styled-form select:focus {
+        border-color: #007bff; /* تغيير لون الحد عند التركيز */
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* إضافة ظل خفيف عند التركيز */
+        outline: none; /* إزالة التحديد الافتراضي للمتصفح */
+    }
+
+    /* أنماط رسائل الخطأ للحقول */
+    .field-error-list {
+        margin-top: 8px; /* زيادة المسافة العلوية */
+        padding-right: 0; /* لـ dir="rtl" */
+        list-style-type: none;
+        color: #721c24; /* لون خطأ واضح */
+        font-size: 0.9rem; /* حجم خط مناسب لرسائل الخطأ */
+    }
+    .field-error-list li {
+        padding: 3px 0;
+    }
+
+    .submit-button {
+        background-color: #007bff; /* لون أساسي */
+        background-image: linear-gradient(180deg, #007bff 0%, #0056b3 100%); /* تدرج لوني جميل */
+        color: white;
+        padding: 12px 20px; /* زيادة الحشوة */
+        border: none;
+        border-radius: 6px; /* زوايا دائرية */
+        cursor: pointer;
+        font-size: 1.15rem; /* تكبير حجم الخط */
+        font-weight: bold;
+        width: 100%;
+        text-transform: uppercase; /* حروف كبيرة (اختياري) */
+        letter-spacing: 0.5px; /* تباعد خفيف بين الحروف */
+        transition: background-color 0.2s ease, transform 0.1s ease; /* انتقال ناعم */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .submit-button:hover {
+        background-color: #0056b3; /* لون أغمق عند المرور */
+        background-image: linear-gradient(180deg, #0069d9 0%, #004a99 100%);
+        transform: translateY(-1px); /* تأثير رفع خفيف */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .submit-button:active {
+        transform: translateY(0px); /* تأثير ضغط */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 30px; /* زيادة المسافة العلوية */
+        font-size: 0.95rem;
+        color: #6c757d; /* لون رمادي للنص */
+    }
+
+    .register-link a {
+        color: #28a745; /* لون أخضر مميز للرابط */
+        text-decoration: none;
+        font-weight: 600; /* خط أعرض للرابط */
+    }
+
+    .register-link a:hover {
+        text-decoration: underline;
+        color: #218838; /* لون أخضر أغمق عند المرور */
+    }
+</style>
+{% endblock %}

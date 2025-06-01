@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+{% comment %} {% load form_extras %} {# تأكد من تحميل الفلتر إذا كنت تستخدمه لعرض أسماء الحقول في الأخطاء العامة #} {% endcomment %}
+
+{% block title %}تسجيل باحث جديد{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'CSS/form_styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="form-page-container" dir="rtl">
+    <div class="form-wrapper">
+        <header class="form-header">
+            <i class="fas fa-user-plus form-header-icon"></i>
+            <h2 style='margin-right:10px'>تسجيل باحث جديد</h2>
+            {# === نقل هذا الوسم إلى داخل الهيدر === #}
+        </header>
+            <p class="alert-message-account">بعد التسجيل، سيتم مراجعة حسابك من قبل الإدارة قبل تفعيله.</p>
+
+        {% if form.errors %}
+            <div class="form-alert form-alert-danger">
+                <strong><i class="fas fa-exclamation-triangle"></i> يرجى تصحيح الأخطاء التالية:</strong>
+                <ul class="error-list-main">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>
+                                {% if field != '__all__' %}{{ field }}: {% endif %}{{ error }}
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post" class="styled-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="form-label">
+                        {{ field.label }}
+                        {% if field.field.required %}<span class="required-asterisk">*</span>{% endif %}
+                    </label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="help-text">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                        <ul class="field-error-list">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-primary btn-submit-form">
+                <i class="fas fa-check-circle"></i> تسجيل
+            </button>
+        </form>
+
+        <p class="form-footer-link">
+            لديك حساب بالفعل؟ <a href="{% url 'portal:login' %}">تسجيل الدخول</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script> #}
+{% endblock %}

@@ -1,0 +1,302 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}مجلة شام{% endblock %}</title>
+    <!-- روابط CSS الأساسية -->
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}" /> <!-- أنماطك العامة -->
+    <link rel="stylesheet" href="{% static 'CSS/all.css' %}" /> <!-- Font Awesome أو ما شابه -->
+    <link rel="stylesheet" href="{% static 'CSS/header&footer.css' %}" /> <!-- أنماط خاصة بالهيدر والفوتر -->
+    
+    <!-- رابط Bootstrap إذا كنت ستستخدمه (يبدو أن الهيدر الحالي لا يعتمد عليه بشكل مباشر) -->
+    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}"> -->
+
+    <!-- Swiper CSS (مستخدم في بعض الصفحات الفرعية، جيد أن يكون هنا إذا كان شائع الاستخدام) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
+      rel="stylesheet"
+    />
+    {% block extra_head %}{% endblock %} <!-- لإضافة CSS أو meta خاصة بكل صفحة فرعية -->
+  </head>
+  <body>
+    <!-- =====start header one (الجديد) =====  -->
+    <div class="header1" style="direction:ltr">
+      <div class="content-header1">
+        <!-- part 1 -->
+        <div class="icons-socheal">
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-twitter items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-tiktok items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-linkedin-in items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-youtube items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-instagram items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-facebook-f items-socheal-icon"></i
+            ></a>
+          </div>
+        </div>
+
+        <!-- part 2 -->
+        <div class="contact-with">
+          <div class="email-contact">
+            <div class="box-email">
+              <a href="mailto:info@marketmarkt.com"> <h2 class="email-text">info@marketmarkt.com</h2></a>
+            </div>
+            <div class="box-icon-email">
+              <a href="mailto:info@marketmarkt.com"
+                ><i class="fa-solid fa-envelope items-contact-icon"></i
+              ></a>
+            </div>
+          </div>
+
+          <div class="number-contact">
+            <div class="box-number">
+              <a href="https://wa.me/905511550250" target="_blank"><h2 class="number-text">+905511550250</h2></a>
+            </div>
+            <div class="box-icon-number">
+              <a href="https://wa.me/905511550250" target="_blank"
+                ><i class="fa-brands fa-whatsapp items-contact-icon"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- =====end header one=====  -->
+
+    <!-- =====start header two (الجديد) =====  -->
+    <header style="direction:ltr">
+      <div class="part2-them-and-logInUp">
+        <div class="logInUp">
+          <!-- start languages dropDown-->
+          <div class="lang-menu">
+            <div class="selected-lang">
+              <img
+                class="img-flag"
+                src="https://flagsapi.com/SA/shiny/64.png" 
+                alt="Arabic Flag"
+              />
+              <a class="lan-ar" style="display: inline-block" href="#" value="er"
+                >العربية</a
+              >
+            </div>
+            <ul>
+              <li class="lan-en">
+                <img
+                  class="img-flag"
+                  src="https://flagsapi.com/US/shiny/64.png" 
+                  alt="English Flag"
+                />
+                <a href="#" value="en">English</a>
+              </li>
+              <li class="lan-tr">
+                <img
+                  class="img-flag"
+                  src="https://flagsapi.com/TR/shiny/64.png" 
+                  alt="Turkish Flag"
+                />
+                <a href="#" value="tr">Türkçe</a>
+              </li>
+            </ul>
+          </div>
+          <!-- end languages dropDown-->
+
+          {% if user.is_authenticated %}
+            {% if user.is_staff %}
+                <a href="{% url 'portal:approver_dashboard' %}" class="btn-log btnLogUp">لوحة تحكم المسؤول ({{ user.username }})</a>
+                <form method="post" action="{% url 'portal:logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-log btnLogUp" style="background: #dc3545; margin-right: 5px;">تسجيل الخروج</button>
+                </form>
+            {% else %}
+                 <a href="{% url 'portal:researcher_dashboard' %}" class="btn-log btnLogUp">لوحة تحكم الباحث ({{ user.username }})</a>
+                 <form method="post" action="{% url 'portal:logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-log btnLogUp" style="background: #dc3545; margin-right: 5px;">تسجيل الخروج</button>
+                </form>
+            {% endif %}
+          {% else %}
+            <a href="{% url 'portal:login' %}" class="btn-log btnLogUp">تسجيل دخول</a>
+            <a href="{% url 'portal:register_researcher' %}" class="btn-log btnLogUp" style="margin-right: 5px; background-color: #28a745;">تسجيل باحث</a>
+          {% endif %}
+        </div>
+        <!-- change mode -->
+        <button id="theme-switch" class="btn-switch-mode">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#ffee00"
+          >
+            <path
+              d="M480-267q-89 0-151-62t-62-151q0-89 62-151t151-62q89 0 151 62t62 151q0 89-62 151t-151 62ZM213-427H27v-106h186v106Zm720 0H747v-106h186v106ZM427-747v-186h106v186H427Zm0 720v-186h106v186H427ZM257-631 137-748l74-76 115 118-69 75Zm492 494L635-253l69-75 119 116-74 75ZM631-703l117-120 76 74-118 115-75-69ZM137-212l116-113 75 69-116 119-75-75Z"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#12002e"
+          >
+            <path
+              d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"
+            />
+          </svg>
+        </button>
+      </div>
+      <!-- /part2-them-and-logInUp -->
+
+      <div class="part1-listItems-and-logo">
+        <div dir="rtl" class="menu">
+          <div class="btn-menu">
+            <i class="fa-solid fa-xmark close-btn"></i>
+          </div>
+          <a id="link01-header" href="{% url 'portal:index' %}" class="txt-main">الرئيسية</a>
+          <a id="link02-header" href="{% url 'portal:team_university' %}">هيئة التحرير</a>
+          <a id="link03-header" href="{% url 'portal:roles' %}">قواعد النشر</a>
+          <a id="link04-header" href="{% url 'portal:archef' %}">أرشيف المجلة</a>
+          <a id="link05-header" href="{% url 'portal:contact' %}">معلومات الاتصال</a>
+          <a href="{% url 'portal:login' %}" class="log-in-mobile btn-log btnLogUp">تسجيل دخول</a>
+        </div>
+        <div class="btn">
+          <i class="fa-solid fa-bars menu-btn"></i>
+        </div>
+
+        <a href="{% url 'portal:index' %}" id="logoo"
+          ><div class="brand">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <div class="logo-sham" style="background-image: url('{% static 'images/logo-opacity.png' %}');">
+              <!-- لا تحتاج لمحتوى هنا لأن الصورة كخلفية -->
+          </div>
+            </div
+        ></a>
+      </div>
+    </header>
+    <!-- =====end header two=====  -->
+<!-- وسم main الآن سيكون حاويًا للمحتوى الديناميكي والرسائل -->
+<main class="container mt-4"> <!-- يمكنك تعديل هذه الكلاسات إذا كان الهيدر الجديد لا يتطلب Bootstrap -->
+    {% if messages %}
+        <div class="messages-container"> {# حاوية جديدة مخصصة للرسائل #}
+            {% for message in messages %}
+                <div class="custom-message {{ message.tags }}"> {# الكلاس الأساسي وكلاسات Django #}
+                    <span style="color:#ffffff;">{{ message }}</span>
+                    {# زر إغلاق مخصص #}
+                    <button type="button" class="close-message-btn" onclick="this.parentElement.style.display='none';">×</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}
+    <!-- محتوى الصفحات الفرعية سيأتي هنا -->
+    {% endblock %}
+</main>
+
+    <!-- Footer الجديد -->
+    <footer>
+      <div class="row">
+        <div class="col">
+          <img src="{% static 'images/logo-opacity.png' %}" alt="شعار المجلة الشفاف" class="logo" />
+          <p dir="rtl">
+            نتمنى أن تكونوا قد سعدتم بزيارتكم بتصفح المجلة و لاتنسونا من صالح
+            دعاؤكم
+          </p>
+        </div>
+        <div class="col">
+          <h3 dir="rtl">
+            موقع جامعة الشام
+            <div class="underline"><span></span></div>
+          </h3>
+          <p>سوريا</p>
+          <p>حلب, إعزاز</p>
+          <p>مخيم الريان</p>
+          <p class="email-id">univercitysham@gimal.com</p> <!-- تأكد من صحة الإيميل -->
+          <h4>+90 - 0123456789</h4>
+        </div>
+        <div class="col">
+          <h3 dir="rtl">
+            الروابط
+            <div class="underline"><span></span></div>
+          </h3>
+          <ul>
+            <li><a dir="rtl" href="{% url 'portal:index' %}">الرئيسية</a></li>
+            <li><a dir="rtl" href="{% url 'portal:team_university' %}">هيئة التحرير</a></li>
+            <li><a dir="rtl" href="{% url 'portal:roles' %}">قواعد النشر</a></li>
+            <li><a dir="rtl" href="{% url 'portal:archef' %}">أرشيف المجلة</a></li>
+            <li><a dir="rtl" href="{% url 'portal:contact' %}">معلومات الاتصال</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 dir="rtl">
+            أخبرنا برأيك حول المجلة
+            <div class="underline"><span></span></div>
+          </h3>
+          <form method="POST" action="{% url 'portal:index' %}"> <!-- عدّل action إلى المسار الصحيح لمعالجة الفورم -->
+            {% csrf_token %}
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" name="feedback_email" placeholder="Enter your email" required />
+            <button type="submit">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </form>
+          <div class="social-icons">
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-telegram"></i></a>
+            <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="bootom-copyright">
+        <hr />
+        <p class="copyright">
+          جامعة الشام العالمية © {% now "Y" %} - كل الحقوق محفوظة لدى الجامعة
+        </p>
+      </div>
+    </footer>
+    
+    <!-- روابط JS الأساسية -->
+    <script type="text/javascript" src="{% static 'js/darkmode.js' %}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+
+    {% block extra_scripts %}
+    {% endblock %} <!-- لإضافة JS خاص بكل صفحة فرعية -->
+  </body>
+</html>

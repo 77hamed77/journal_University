@@ -1,0 +1,519 @@
+/* static/CSS/style_dashboard.css */
+
+/* --- General Reset & Base --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f4f7f6; /* Light grayish background */
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    direction: rtl; /* Ensure overall direction is RTL */
+}
+
+a {
+    color: #007bff; /* A nice blue for links */
+    text-decoration: none;
+    transition: color 0.2s ease; /* Added transition for link hover */
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* Darken link on hover */
+}
+
+/* --- Dashboard Container --- */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    opacity: 0; /* Start hidden for entry animation */
+    animation: fadeInContainer 0.6s 0.2s ease-out forwards; /* Animation for container */
+}
+
+@keyframes fadeInContainer {
+    to {
+        opacity: 1;
+    }
+}
+
+.dashboard-container h2 {
+    color: #2c3e50; /* Darker blue-gray for main heading */
+    font-weight: 600;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+    /* Animation for heading */
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: slideInFromTop 0.5s 0.5s ease-out forwards;
+}
+
+@keyframes slideInFromTop {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* --- Row & Column Layout --- */
+.dashboard-row {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 25px; /* Space between columns */
+    margin-bottom: 25px;
+}
+
+.dashboard-col-half {
+    flex: 1 1 calc(50% - 12.5px); /* Allows shrinking, takes half width minus half gap */
+    min-width: 300px; /* Prevent columns from getting too narrow */
+}
+
+/* --- Cardd Styling --- */
+.cardd {
+    background-color: #ffffff;
+    border: 1px solid #e7e7e7;
+    border-radius: 8px; /* Slightly more rounded */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 25px; /* Increased margin */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* For hover effect */
+
+    /* Animation for cardd entry */
+    opacity: 0;
+    transform: translateY(20px);
+    /* Default animation, will be overridden for staggered effect if .dashboard-row is used */
+    animation: fadeInSlideUp 0.5s ease-out forwards;
+}
+
+/* Staggered animation for cardds in .dashboard-row */
+.dashboard-row .cardd {
+    animation: none; /* Disable default cardd animation if inside a row */
+}
+.dashboard-row .dashboard-col-half:nth-child(1) .cardd {
+    animation: fadeInSlideUp 0.5s 0.7s ease-out forwards;
+}
+.dashboard-row .dashboard-col-half:nth-child(2) .cardd {
+    animation: fadeInSlideUp 0.5s 0.85s ease-out forwards;
+}
+/* For the full-width cardd (assuming it's a direct child of .dashboard-container and not in .dashboard-row) */
+.dashboard-container > .cardd:not(.dashboard-row .cardd) {
+     /* Assuming the table cardd is the last direct child .cardd of .dashboard-container */
+    animation: fadeInSlideUp 0.5s 1s ease-out forwards; /* Adjust delay as needed */
+}
+
+
+.cardd:hover {
+    transform: translateY(-5px) scale(1.01); /* Slight lift and scale on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+}
+
+@keyframes fadeInSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cardd-header-info,
+.cardd-header-success,
+.cardd-header-secondary {
+    padding: 15px 20px;
+    margin: 0;
+    font-size: 1.25em;
+    font-weight: 500;
+    border-bottom: 1px solid #e7e7e7;
+    transition: background-color 0.3s ease;
+}
+
+.cardd-header-info { background-color: #e7f3fe; color: #0c5460; }
+.cardd-header-success { background-color: #e9f7ef; color: #155724; }
+.cardd-header-secondary { background-color: #f8f9fa; color: #383d41; }
+
+.cardd ul.item-list,
+.cardd .no-items-message,
+.cardd .table-container {
+    padding: 20px;
+}
+
+/* --- List Styling (Pending Users & Papers) --- */
+.item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list-item {
+    padding: 15px 0;
+    border-bottom: 1px dashed #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    transition: background-color 0.2s ease-in-out; /* For hover effect */
+    opacity: 0; /* Start hidden for animation */
+    transform: translateX(20px); /* For RTL, slide from left */
+    /* Animation will be applied using nth-child and a loop in JS or by hand for a few items */
+}
+[dir="rtl"] .list-item { /* For RTL, slide from left */
+    transform: translateX(20px);
+}
+[dir="ltr"] .list-item { /* For LTR, slide from right */
+    transform: translateX(-20px);
+}
+
+.list-item:hover {
+    background-color: #f9f9f9; /* Slight background change on hover */
+}
+
+/* Staggered animation for list items (manual for a few) */
+/* You'd need JavaScript for a dynamic number of items, or many CSS rules */
+.item-list .list-item:nth-child(1) { animation: fadeInSlideInItem 0.4s 0.2s ease-out forwards; }
+.item-list .list-item:nth-child(2) { animation: fadeInSlideInItem 0.4s 0.3s ease-out forwards; }
+.item-list .list-item:nth-child(3) { animation: fadeInSlideInItem 0.4s 0.4s ease-out forwards; }
+.item-list .list-item:nth-child(4) { animation: fadeInSlideInItem 0.4s 0.5s ease-out forwards; }
+/* Add more if needed, or use JS */
+
+@keyframes fadeInSlideInItem {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+.list-item:last-child {
+    border-bottom: none;
+}
+
+.list-item > span:first-child { flex-grow: 1; }
+.list-item > span:last-child { flex-shrink: 0; }
+
+.paper-title-link {
+    font-weight: 600;
+    color: #0056b3;
+    font-size: 1.1em;
+    position: relative; /* For underline animation */
+    display: inline-block;
+}
+.paper-title-link::after { /* Underline animation */
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 2px;
+    right: 0; /* For RTL */
+    background: #0056b3;
+    transition: width 0.3s ease;
+}
+[dir="ltr"] .paper-title-link::after { left:0; right: auto; } /* For LTR */
+
+.paper-title-link:hover::after {
+    width: 100%;
+}
+
+
+.paper-details { font-size: 0.9em; color: #555; margin: 5px 0; }
+.paper-details strong { color: #333; }
+.paper-abstract { font-size: 0.95em; color: #666; margin-top: 8px; font-style: italic; line-height: 1.5; }
+.no-items-message { color: #777; font-style: italic; text-align: center; padding: 20px 0; }
+
+/* --- Button Styling --- */
+.custom-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease-in-out, transform 0.15s ease, box-shadow 0.2s ease; /* Enhanced transition */
+    text-transform: capitalize;
+    position: relative;
+    overflow: hidden; /* For ripple effect if added */
+}
+.custom-btn:hover {
+    /* opacity is less flexible than changing background color directly */
+    transform: translateY(-2px) scale(1.02); /* Slight lift and scale */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Enhanced shadow on hover */
+}
+.custom-btn:active {
+    transform: translateY(0px) scale(0.98); /* Press down effect */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); /* Inset shadow for press */
+}
+
+.btn-approve, .btn-publish { background-color: #28a745; }
+.btn-approve:hover, .btn-publish:hover { background-color: #218838; }
+
+.btn-reject, .btn-reject-paper { background-color: #dc3545; }
+.btn-reject:hover, .btn-reject-paper:hover { background-color: #c82333; }
+
+.btn-activate-xs { background-color: #17a2b8; padding: 5px 10px; font-size: 0.8em; }
+.btn-activate-xs:hover { background-color: #138496; }
+
+.btn-delete-xs { background-color: #6c757d; padding: 5px 10px; font-size: 0.8em; }
+.btn-delete-xs:hover { background-color: #5a6268; }
+
+/* --- Separator Line --- */
+.separator-line {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin: 40px 0;
+    width: 0; /* Start with no width for animation */
+    animation: expandWidth 0.5s 1.2s ease-out forwards; /* Delay after cardds */
+}
+@keyframes expandWidth {
+    to {
+        width: 100%;
+    }
+}
+
+/* --- Table Styling --- */
+.table-container {
+    overflow-x: auto;
+    opacity: 0; /* For animation */
+    animation: fadeIn 0.5s 1.5s ease-out forwards; /* Delay after separator line */
+}
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.95em;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.custom-table thead tr {
+    background-color: #f8f9fa;
+}
+.custom-table th {
+    font-weight: 600;
+    color: #343a40;
+}
+
+.custom-table tbody tr { /* Row hover transition */
+    transition: background-color 0.2s ease-in-out;
+}
+.custom-table tbody tr:nth-child(even) {
+    background-color: #fdfdfd;
+}
+.custom-table tbody tr:hover {
+    background-color: #e9f5ff; /* Brighter blue hover */
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #fff;
+    text-transform: capitalize;
+    display: inline-block;
+    transition: transform 0.2s ease; /* For hover on badge */
+}
+.status-badge:hover {
+    transform: scale(1.05); /* Slight scale on badge hover */
+}
+
+.status-active { background-color: #28a745; }
+.status-pending { background-color: #ffc107; color: #212529; }
+
+/* --- Responsive adjustments --- */
+@media (max-width: 768px) {
+    .dashboard-row {
+        flex-direction: column;
+    }
+    .dashboard-col-half {
+        flex: 1 1 100%;
+        margin-bottom: 20px; /* Ensure margin-bottom is for the column, not the cardd directly if cardd margin is 0 for staggered animation */
+    }
+     .dashboard-row .dashboard-col-half .cardd { /* Ensure cardds in columns also get their bottom margin if stacked */
+        margin-bottom: 20px;
+    }
+    .dashboard-row .dashboard-col-half:last-child .cardd {
+        margin-bottom: 0; /* Last cardd in a stacked column might not need bottom margin */
+    }
+
+    .list-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .list-item > span:first-child {
+        margin-bottom: 10px;
+    }
+    /* Disable staggered list item animation on small screens if it looks too busy or causes layout shifts */
+    .item-list .list-item {
+        animation: none; /* Disable list item animation */
+        opacity: 1;
+        transform: none;
+    }
+}
+/* message alert */
+/* === Message Styling (ضع هذا في style_dashboard.css أو ملف CSS منفصل) === */
+
+.messages-container {
+    position: fixed; /* يثبت الرسائل في أعلى الشاشة */
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%); /* للتوسيط الأفقي */
+    width: auto; /* العرض يتكيف مع المحتوى */
+    min-width: 300px; /* أقل عرض للرسالة */
+    max-width: 550px; /* أقصى عرض للرسالة */
+    z-index: 1050; /* لضمان ظهوره فوق العناصر الأخرى */
+    padding: 0;
+    list-style: none;
+    direction: rtl; /* للتوافق مع اللغة العربية */
+}
+
+.custom-message {
+    display: flex; /* لترتيب النص وزر الإغلاق */
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* ظل أكثر نعومة */
+    border-right: 6px solid transparent; /* حد جانبي مميز لـ RTL */
+    color: #fff; /* لون نص افتراضي، يتم تخصيصه لكل نوع */
+    opacity: 0; /* للتحريك عند الظهور */
+    transform: translateY(-20px); /* للتحريك عند الظهور */
+    animation: slideDownFadeIn 0.4s ease-out 0.1s forwards; /* تأخير بسيط للظهور */
+    overflow: hidden; /* يمنع المحتوى من تجاوز الحدود الدائرية */
+}
+
+.custom-message span {
+    flex-grow: 1; /* لجعل نص الرسالة يأخذ المساحة المتبقية */
+    padding-right: 10px; /* مسافة بين الأيقونة (إن وجدت) والنص */
+}
+
+.close-message-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.8em; /* حجم أكبر لزر الإغلاق */
+    font-weight: bold;
+    color: inherit; /* يرث لون النص من .custom-message */
+    cursor: pointer;
+    padding: 0 0 0 15px; /* مسافة من يسار الزر للنص (في RTL) */
+    line-height: 1;
+    opacity: 0.6;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.close-message-btn:hover {
+    opacity: 1;
+    transform: scale(1.1); /* تكبير بسيط عند المرور */
+}
+
+/* Styling based on message.tags (from Django) */
+.custom-message.success {
+    background-color: #2e7d32; /* أخضر داكن قليلاً */
+    border-right-color: #1b5e20; /* أخضر أغمق للحد */
+}
+.custom-message.success::before {
+    content: "✔"; /* أيقونة النجاح */
+    font-weight: bold;
+    padding-left: 15px; /* مسافة داخلية على يسار الأيقونة (RTL) */
+    font-size: 1.2em;
+}
+
+.custom-message.error {
+    background-color: #c62828; /* أحمر داكن قليلاً */
+    border-right-color: #b71c1c;
+}
+.custom-message.error::before {
+    content: "✖";
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 1.2em;
+}
+
+.custom-message.warning {
+    background-color: #f9a825; /* أصفر/برتقالي للتحذير */
+    border-right-color: #f57f17;
+    color: #212529; /* نص داكن للخلفيات الفاتحة */
+}
+.custom-message.warning::before {
+    content: "⚠";
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 1.2em;
+}
+
+.custom-message.info {
+    background-color: #0277bd; /* أزرق داكن قليلاً */
+    border-right-color: #01579b;
+}
+.custom-message.info::before {
+    content: "ℹ";
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 1.2em;
+}
+
+/* Debug tag (if Django adds it) */
+.custom-message.debug {
+    background-color: #455a64; /* رمادي داكن للـ debug */
+    border-right-color: #263238;
+}
+.custom-message.debug::before {
+    content: "⚙"; /* أيقونة Debug */
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 1.2em;
+}
+
+
+/* Animation for messages */
+@keyframes slideDownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .messages-container {
+        width: 90%;
+        max-width: none;
+        top: 10px;
+        left: 5%; /* لجعله يأخذ عرض الشاشة مع هوامش */
+        transform: translateX(0); /* لا حاجة للتوسيط إذا كان العرض 90% */
+    }
+    .custom-message {
+        font-size: 0.9em;
+        padding: 12px 15px;
+        border-right-width: 5px;
+    }
+    .custom-message::before {
+        padding-left: 10px;
+        font-size: 1.1em;
+    }
+    .close-message-btn {
+        font-size: 1.5em;
+        padding: 0 0 0 10px;
+    }
+}
