@@ -1,4 +1,4 @@
-# settings.py (النسخة الكاملة والمعدلة)
+# settings.py (النسخة النهائية الكاملة والمعدلة)
 
 import os
 from pathlib import Path
@@ -105,6 +105,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
 # --- إعدادات ملفات الوسائط (Media Files) مع Supabase/S3 ---
+# --- تم تعديل هذا القسم بالكامل ليتوافق مع Supabase ---
 if not DEBUG:
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -112,17 +113,18 @@ if not DEBUG:
     AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL')
     AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
     
-    if AWS_STORAGE_BUCKET_NAME and AWS_S3_ENDPOINT_URL:
-        endpoint_domain = AWS_S3_ENDPOINT_URL.split("https://")[1]
-        AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.{endpoint_domain}'
-    else:
-        AWS_S3_CUSTOM_DOMAIN = None
-
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    AWS_LOCATION = 'media'
+    AWS_LOCATION = 'media' # سيتم إنشاء مجلد 'media' داخل الـ bucket
+
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+    
+    # --- هذا هو التعديل الأهم: بناء الرابط الصحيح لـ Supabase ---
+    if AWS_S3_ENDPOINT_URL and AWS_STORAGE_BUCKET_NAME:
+        MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/object/public/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/"
+    else:
+        MEDIA_URL = '' # قيمة افتراضية في حال عدم وجود المتغيرات
 else:
+    # إعدادات التطوير المحلي للملفات (تبقى كما هي)
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -130,8 +132,7 @@ else:
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# --- الخطوة 1: تحديد نموذج المستخدم المخصص ---
-# هذا السطر هو أهم تعديل، يخبر Django باستخدام نموذج المستخدم الخاص بك
+# تحديد نموذج المستخدم المخصص
 AUTH_USER_MODEL = 'portal.User'
 
 
