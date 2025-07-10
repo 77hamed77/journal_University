@@ -6,10 +6,6 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
-    # AbstractUser يحتوي بالفعل على الحقول الأساسية
-
-    # --- الخطوة 2: حل تعارض العلاقات العكسية ---
-    # قمنا بإعادة تعريف الحقول مع إضافة related_name فريد
     groups = models.ManyToManyField(
         Group,
         verbose_name=_('groups'),
@@ -18,7 +14,7 @@ class User(AbstractUser):
             'The groups this user belongs to. A user will get all permissions '
             'granted to each of their groups.'
         ),
-        related_name="portal_user_set",  # اسم فريد لحل التعارض
+        related_name="portal_user_set",
         related_query_name="user",
     )
     user_permissions = models.ManyToManyField(
@@ -26,7 +22,7 @@ class User(AbstractUser):
         verbose_name=_('user permissions'),
         blank=True,
         help_text=_('Specific permissions for this user.'),
-        related_name="portal_user_permissions_set", # اسم فريد آخر لحل التعارض
+        related_name="portal_user_permissions_set",
         related_query_name="user",
     )
 
@@ -36,9 +32,11 @@ class User(AbstractUser):
 # --- دالة مساعدة لتحديد مسار الرفع الديناميكي ---
 def user_directory_path(instance, filename):
     """
-    سيتم رفع الملف إلى المسار: user_<id>/<filename>
+    سيتم رفع الملف إلى المسار: media/user_<id>/<filename>
     """
-    return f'user_{instance.author.id}/{filename}'
+    # **التعديل هنا: أضفنا 'media/' يدوياً إلى المسار**
+    # هذا يضمن أن كل الملفات ستكون داخل مجلد media في الـ bucket
+    return f'media/user_{instance.author.id}/{filename}'
 
 class ResearchPaper(models.Model):
     STATUS_CHOICES = (
@@ -50,7 +48,10 @@ class ResearchPaper(models.Model):
     title = models.CharField(max_length=255)
     abstract = models.TextField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='papers')
+    
+    # هذا الحقل يستخدم الآن الدالة المعدلة أعلاه
     document = models.FileField(upload_to=user_directory_path)
+    
     submission_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     reviewed_by = models.ForeignKey(

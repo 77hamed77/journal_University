@@ -114,15 +114,17 @@ if not DEBUG:
     AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
     
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    AWS_LOCATION = 'media' # سيتم إنشاء مجلد 'media' داخل الـ bucket
-
+    
+    # **التعديل 1: تم حذف AWS_LOCATION**
+    # سنقوم بتحديد المسار الكامل في ملف models.py بدلاً من هنا
+    
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     
-    # --- هذا هو التعديل الأهم: بناء الرابط الصحيح لـ Supabase ---
+    # **التعديل 2: تم تعديل MEDIA_URL ليشير إلى جذر الـ bucket**
     if AWS_S3_ENDPOINT_URL and AWS_STORAGE_BUCKET_NAME:
-        MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/object/public/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/"
+        MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/object/public/{AWS_STORAGE_BUCKET_NAME}/"
     else:
-        MEDIA_URL = '' # قيمة افتراضية في حال عدم وجود المتغيرات
+        MEDIA_URL = ''
 else:
     # إعدادات التطوير المحلي للملفات (تبقى كما هي)
     MEDIA_URL = '/media/'
