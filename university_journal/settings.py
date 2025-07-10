@@ -1,3 +1,5 @@
+# settings.py (النسخة الكاملة والمعدلة)
+
 import os
 from pathlib import Path
 import dj_database_url
@@ -14,7 +16,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG') == 'True'
 
 # --- المضيفون المسموح بهم (مهم جداً للنشر) ---
-# يتم الآن قراءة النطاق من متغيرات البيئة التي يوفرها Render
 ALLOWED_HOSTS = []
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -105,8 +106,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # --- إعدادات ملفات الوسائط (Media Files) مع Supabase/S3 ---
 if not DEBUG:
-    # ملاحظة هامة: مكتبة django-storages تبحث عن متغيرات تبدأ بـ AWS_
-    # لذا يجب أن تكون أسماء المتغيرات في بيئة Render هي AWS_...
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
@@ -120,18 +119,21 @@ if not DEBUG:
         AWS_S3_CUSTOM_DOMAIN = None
 
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    AWS_LOCATION = 'media' # إنشاء مجلد 'media' داخل الـ bucket لتنظيم الملفات
-
+    AWS_LOCATION = 'media'
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 else:
-    # إعدادات التطوير المحلي للملفات
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- الخطوة 1: تحديد نموذج المستخدم المخصص ---
+# هذا السطر هو أهم تعديل، يخبر Django باستخدام نموذج المستخدم الخاص بك
+AUTH_USER_MODEL = 'portal.User'
+
 
 # --- إعدادات أمان إضافية للإنتاج ---
 if not DEBUG:
@@ -143,5 +145,5 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     
-    # هذا الإعداد ضروري للأمان ويستخدم النطاق الرسمي لموقعك
-    CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}']
+    if RENDER_EXTERNAL_HOSTNAME:
+        CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}']

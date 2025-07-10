@@ -1,20 +1,34 @@
+# portal/models.py (النسخة الكاملة والمعدلة)
+
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.conf import settings # لاستخدام User model
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
-    # AbstractUser يحتوي بالفعل على username, password, email, first_name, last_name
-    ROLE_CHOICES = (
-        ('researcher', 'Researcher'),
-        ('approver', 'Approver'), # مسؤول الموافقة
-    )
-    # سيتم استخدام is_staff لحساب مسؤول الموافقة الرئيسي مبدئياً
-    # يمكن إضافة حقل role إذا أردت أكثر من مسؤول موافقة أو أدوار أخرى لاحقاً
-    # is_active سيتحكم به مسؤول الموافقة للباحثين الجدد
-    # True = تم الموافقة عليه، False = معلق أو مرفوض
+    # AbstractUser يحتوي بالفعل على الحقول الأساسية
 
-    # يمكنك إضافة حقول أخرى هنا إذا احتجت
-    # مثلاً: department, university_id, etc.
+    # --- الخطوة 2: حل تعارض العلاقات العكسية ---
+    # قمنا بإعادة تعريف الحقول مع إضافة related_name فريد
+    groups = models.ManyToManyField(
+        Group,
+        verbose_name=_('groups'),
+        blank=True,
+        help_text=_(
+            'The groups this user belongs to. A user will get all permissions '
+            'granted to each of their groups.'
+        ),
+        related_name="portal_user_set",  # اسم فريد لحل التعارض
+        related_query_name="user",
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        verbose_name=_('user permissions'),
+        blank=True,
+        help_text=_('Specific permissions for this user.'),
+        related_name="portal_user_permissions_set", # اسم فريد آخر لحل التعارض
+        related_query_name="user",
+    )
 
     def __str__(self):
         return self.username
@@ -23,8 +37,6 @@ class User(AbstractUser):
 def user_directory_path(instance, filename):
     """
     سيتم رفع الملف إلى المسار: user_<id>/<filename>
-    مثال: user_12/my_research_paper.pdf
-    هذا ينظم الملفات ويساعد في تطبيق سياسات الأمان.
     """
     return f'user_{instance.author.id}/{filename}'
 
@@ -33,21 +45,14 @@ class ResearchPaper(models.Model):
         ('pending', 'Pending Approval'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
-        ('needs_revision', 'Needs Revision'), # تمت إضافة حالة جديدة إذا احتجتها
+        ('needs_revision', 'Needs Revision'),
     )
     title = models.CharField(max_length=255)
     abstract = models.TextField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='papers')
-    
-    # --- هذا هو التعديل المهم ---
-    # ملف البحث (PDF, DOCX, etc.) سيتم حفظه في مجلد خاص بالمستخدم
     document = models.FileField(upload_to=user_directory_path)
-    # --------------------------
-    
     submission_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    
-    # من وافق أو رفض (اختياري، يمكن أن يكون مسؤول الموافقة الوحيد)
     reviewed_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.SET_NULL, 
@@ -56,7 +61,7 @@ class ResearchPaper(models.Model):
         related_name='reviewed_papers'
     )
     review_date = models.DateTimeField(null=True, blank=True)
-    review_comments = models.TextField(blank=True, null=True) # ملاحظات المسؤول عند الرفض مثلا
+    review_comments = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.title} by {self.author.username}"
