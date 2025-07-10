@@ -780,7 +780,7 @@ main .card.swapAnimation {
   font-family: "Cairo", sans-serif;
   font-size: 1.2rem;
   line-height: 1.8;
-  padding: 0 20px; 
+  padding: 0 20px;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
@@ -925,60 +925,6 @@ header {
   background: #025a94;
 }
 
-/* Language Menu Styles */
-.lang-menu {
-  position: relative;
-  margin-right: 15px;
-}
-
-.selected-lang {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.lang-menu ul {
-  margin: 0;
-  padding: 0;
-  display: none;
-  background: rgba(0, 0, 0, 0.7);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border-radius: 5px;
-  position: absolute;
-  top: 100%;
-  left: 0;
-}
-
-.lang-menu:hover ul {
-  display: block;
-}
-
-.lang-menu ul li {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  padding: 5px 10px;
-  gap: 5px;
-}
-
-.lang-menu ul li:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.lang-menu ul li a {
-  text-decoration: none;
-  color: black;
-}
-
-.img-flag {
-  width: 24px;
-  height: 24px;
-}
 
 /* Part1 List Items and Logo */
 .part1-listItems-and-logo {
@@ -1021,11 +967,13 @@ header {
 }
 
 /* Mobile Menu Button */
-.btn-menu, .menu-btn {
+.btn-menu,
+.menu-btn {
   display: none;
 }
 
 @media (max-width: 1024px) {
+
   .part2-them-and-logInUp,
   .part1-listItems-and-logo {
     width: 90%;
@@ -1039,7 +987,7 @@ header {
     right: -100%;
     width: 80%;
     height: auto;
-    overflow-y:auto ;
+    overflow-y: auto;
     background: rgba(0, 0, 0, 0.9);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -1052,7 +1000,8 @@ header {
     right: 0;
   }
 
-  .btn-menu, .menu-btn {
+  .btn-menu,
+  .menu-btn {
     display: block;
     font-size: 24px;
     color: black;
@@ -1128,6 +1077,7 @@ footer .col h3 .underline span {
   0% {
     left: -20px;
   }
+
   100% {
     left: 100%;
   }

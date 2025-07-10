@@ -1,0 +1,1 @@
+web: gunicorn university_journal.wsgi:application

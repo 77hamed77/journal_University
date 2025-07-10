@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = 'portal' # مهم لتحديد نطاق الأسماء
+app_name = 'portal'
 
 urlpatterns = [
     # صفحات عامة
@@ -19,12 +19,11 @@ urlpatterns = [
     # لوحة تحكم الباحث
     path('researcher/dashboard/', views.researcher_dashboard_view, name='researcher_dashboard'),
     path('researcher/submit/', views.submit_research_view, name='submit_research'),
-    # يمكنك إضافة عرض لتفاصيل البحث أو تعديله إذا سمحت بذلك
 
     # لوحة تحكم مسؤول الموافقة
     path('approver/dashboard/', views.approver_dashboard_view, name='approver_dashboard'),
     path('approver/approve-user/<int:user_id>/', views.approve_user_view, name='approve_user'),
-    path('approver/reject-user/<int:user_id>/', views.reject_user_view, name='reject_user'), # يمكن دمجها مع approve
+    path('approver/reject-user/<int:user_id>/', views.reject_user_view, name='reject_user'),
     path('approver/approve-paper/<int:paper_id>/', views.approve_paper_view, name='approve_paper'),
     path('approver/reject-paper/<int:paper_id>/', views.reject_paper_view, name='reject_paper'),
 ]

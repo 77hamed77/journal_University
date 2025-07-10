@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: ShamJournal
+    env: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn university_journal.wsgi"
+    
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.11
+      
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_STORAGE_BUCKET_NAME
+        value: journalshambucket
+      - key: AWS_S3_ENDPOINT_URL
+        value: https://vggwwiozotkqjkyrnfjt.supabase.co/storage/v1
+      - key: AWS_S3_REGION_NAME
+        value: eu-central-1
+      - key: DEBUG
+        value: False

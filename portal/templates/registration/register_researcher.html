@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% comment %} {% load form_extras %} {# تأكد من تحميل الفلتر إذا كنت تستخدمه لعرض أسماء الحقول في الأخطاء العامة #} {% endcomment %}
 
 {% block title %}تسجيل باحث جديد{% endblock %}
 
@@ -11,18 +10,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="form-page-container" dir="rtl">
+<div class="form-page-container">
     <div class="form-wrapper">
         <header class="form-header">
             <i class="fas fa-user-plus form-header-icon"></i>
-            <h2 style='margin-right:10px'>تسجيل باحث جديد</h2>
-            {# === نقل هذا الوسم إلى داخل الهيدر === #}
+            <h2 style='margin-right:10px' data-translate-key="register_title">تسجيل باحث جديد</h2>
         </header>
-            <p class="alert-message-account">بعد التسجيل، سيتم مراجعة حسابك من قبل الإدارة قبل تفعيله.</p>
+        <p class="alert-message-account" data-translate-key="register_activation_note">بعد التسجيل، سيتم مراجعة حسابك من قبل الإدارة قبل تفعيله.</p>
 
         {% if form.errors %}
             <div class="form-alert form-alert-danger">
-                <strong><i class="fas fa-exclamation-triangle"></i> يرجى تصحيح الأخطاء التالية:</strong>
+                <strong><i class="fas fa-exclamation-triangle"></i> <span data-translate-key="register_error_header">يرجى تصحيح الأخطاء التالية:</span></strong>
                 <ul class="error-list-main">
                     {% for field, errors in form.errors.items %}
                         {% for error in errors %}
@@ -59,17 +57,18 @@
             {% endfor %}
             
             <button type="submit" class="btn btn-primary btn-submit-form">
-                <i class="fas fa-check-circle"></i> تسجيل
+                <i class="fas fa-check-circle"></i> <span data-translate-key="register_button">تسجيل</span>
             </button>
         </form>
 
         <p class="form-footer-link">
-            لديك حساب بالفعل؟ <a href="{% url 'portal:login' %}">تسجيل الدخول</a>
+            <span data-translate-key="register_has_account">لديك حساب بالفعل؟</span> 
+            <a href="{% url 'portal:login' %}" data-translate-key="register_login_link">تسجيل الدخول</a>
         </p>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
-    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script> #}
+    {# No extra scripts needed for this page #}
 {% endblock %}

@@ -1,0 +1,412 @@
+/* --- Global Variables & Base Styles --- */
+:root {
+    --archef-primary-color: #1a2a4a; /* أزرق ليلي عميق */
+    --archef-secondary-color: #3498db; /* أزرق سماوي مشرق للتباين */
+    --archef-accent-color: #f39c12; /* برتقالي/ذهبي دافئ للمسات */
+    --archef-text-color: #3d3d3d; /* رمادي داكن للنصوص */
+    --archef-text-light: #7f8c8d;
+    --archef-bg-page: #eef2f7; /* خلفية صفحة رمادية فاتحة جداً مائلة للزرقة */
+    --archef-bg-card: #ffffff;
+    --archef-border-color: #dce4ec;
+    --archef-shadow-card: 0 5px 15px rgba(0, 0, 0, 0.07), 0 2px 5px rgba(0,0,0,0.04);
+    --archef-shadow-card-hover: 0 12px 28px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0,0,0,0.08);
+    --archef-shadow-header: 0 8px 25px rgba(26, 42, 74, 0.3);
+    --archef-font-display: 'Playfair Display', serif; /* خط عرض للعناوين الكبيرة */
+    --archef-font-text: 'Cairo', sans-serif; /* خط النصوص العربية */
+}
+
+body {
+    font-family: var(--archef-font-text);
+    background-color: var(--archef-bg-page);
+    color: var(--archef-text-color);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased; /* لتحسين مظهر الخطوط */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.archef-page-container {
+    max-width: 1350px;
+    margin: 3rem auto;
+    padding: 0 25px;
+    opacity: 0;
+    animation: archefPageFadeIn 0.8s 0.2s ease-out forwards;
+}
+
+@keyframes archefPageFadeIn { to { opacity: 1; } }
+
+/* --- Header Styling --- */
+.archef-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 2.5rem 1.5rem;
+    background: linear-gradient(145deg, var(--archef-primary-color) 0%, #2c3e50 100%);
+    color: #fff;
+    border-radius: 16px;
+    box-shadow: var(--archef-shadow-header);
+    position: relative;
+    overflow: hidden; /* لإخفاء العناصر الزخرفية الزائدة */
+    transform: perspective(1000px) rotateX(-10deg) translateY(-30px);
+    opacity: 0;
+    animation: archefHeaderUnfold 0.9s 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+/* عنصر زخرفي للرأس */
+.archef-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.3;
+    transform: rotate(15deg);
+    pointer-events: none; /* لعدم التأثير على التفاعل */
+}
+
+
+@keyframes archefHeaderUnfold {
+    to {
+        opacity: 1;
+        transform: perspective(1000px) rotateX(0deg) translateY(0);
+    }
+}
+
+.archef-main-title {
+    font-family: var(--archef-font-display); /* استخدام خط العرض */
+    font-size: 3rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.archef-main-title i {
+    margin-left: 18px;
+    color: var(--archef-accent-color); /* تغيير لون أيقونة العنوان الرئيسي */
+    opacity: 1;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.archef-subtitle {
+    font-size: 1.25rem;
+    color: #dfe6e9;
+    margin-bottom: 0;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* --- Grid for Cards --- */
+.archef-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2.5rem; /* مسافة أكبر قليلاً */
+}
+
+/* --- Card Styling --- */
+.archef-card {
+    background-color: var(--archef-bg-card);
+    border-radius: 12px; /* زوايا أنعم */
+    box-shadow: var(--archef-shadow-card);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    position: relative; /* لخط التمييز */
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+    animation: archefCardPopIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation-delay: calc(var(--card-index, 0) * 0.12s + 0.9s);
+}
+/* خط تمييز علوي للبطاقة */
+.archef-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0; /* لـ dir="rtl" */
+    width: 0%; /* يبدأ مخفياً */
+    height: 5px; /* سمك الخط */
+    background: linear-gradient(90deg, var(--archef-accent-color), var(--archef-secondary-color));
+    transition: width 0.4s 0.1s ease-out; /* تأخير بسيط لبدء التحريك */
+    z-index: 1;
+}
+[dir="rtl"] .archef-card::before {
+    left: auto;
+    right: 0;
+}
+
+.archef-card:hover::before {
+    width: 100%;
+}
+
+@keyframes archefCardPopIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.archef-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: var(--archef-shadow-card-hover);
+}
+
+.archef-card-content {
+    padding: 2rem 2.2rem; /* حشوة أكبر */
+    flex-grow: 1;
+}
+
+.archef-card-title {
+    font-family: var(--archef-font-display); /* خط العرض */
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--archef-primary-color);
+    margin-top: 0;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+.archef-card-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+.archef-card-title a:hover {
+    color: var(--archef-secondary-color);
+    text-shadow: 0 0 8px rgba(52, 152, 219, 0.2); /* توهج خفيف */
+}
+
+.archef-card-meta {
+    margin-bottom: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--archef-text-light);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.archef-meta-item {
+    display: flex;
+    align-items: center;
+    opacity: 0.85; /* شفافية خفيفة للميتا */
+}
+.archef-meta-item i {
+    margin-left: 10px; /* لـ dir="rtl" */
+    color: var(--archef-secondary-color);
+    font-size: 1em;
+    width: 18px; /* لتثبيت عرض الأيقونة */
+    text-align: center;
+}
+.author-meta {
+    font-weight: 600;
+    color: #555; /* لون أغمق قليلاً للباحث */
+}
+
+.archef-card-abstract {
+    font-size: 1rem;
+    color: #4a4a4a;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    /* لتحسين مظهر القص إذا استخدمت truncatewords_html */
+    max-height: 10.8em; /* (1.8 line-height * 6 lines) - لتحديد عدد أسطر تقريبي */
+    overflow: hidden;
+    position: relative;
+}
+/* تدرج خفيف في نهاية الملخص إذا كان مقصوصاً */
+.archef-card-abstract::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 2.5em; /* ارتفاع التدرج */
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 90%);
+    pointer-events: none; /* لعدم التأثير على تحديد النص */
+    display: block; /* للتأكد من ظهوره */
+}
+/* إخفاء التدرج إذا كان النص أقصر من الارتفاع المحدد (يتطلب JS للتحقق الدقيق) */
+/* هذا حل تقريبي بالـ CSS */
+.archef-card-abstract:not(:hover)::after { 
+    /* يمكن إضافته إذا كنت تريد إخفاء التدرج عند عدم المرور ووجود مساحة */
+}
+
+
+.archef-card-footer {
+    padding: 1.2rem 2.2rem;
+    background-color: #fdfdff; /* خلفية فاتحة جداً للفوتر */
+    border-top: 1px solid var(--archef-border-color);
+    display: flex;
+    justify-content: space-between; /* توزيع الأزرار إذا كان هناك أكثر من زر */
+    align-items: center;
+    gap: 1rem;
+}
+
+/* --- Button Styling --- */
+.archef-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 700; /* خط أعرض */
+    border-radius: 50px;
+    text-decoration: none;
+    border: 2px solid transparent; /* لتأثير الحدود عند المرور */
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+}
+.archef-btn i {
+    margin-left: 10px; /* لـ dir="rtl" */
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+}
+.archef-btn:hover i {
+    transform: rotate(-5deg) scale(1.1);
+}
+
+.archef-btn-primary {
+    background: linear-gradient(45deg, var(--archef-secondary-color), #5dade2); /* تدرج للزر الرئيسي */
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.35);
+}
+.archef-btn-primary:hover {
+    background: linear-gradient(45deg, #2980b9, #4ca5d9);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.45);
+}
+
+.archef-btn-secondary {
+    background-color: transparent;
+    color: var(--archef-primary-color);
+    border-color: var(--archef-primary-color);
+}
+.archef-btn-secondary:hover {
+    background-color: var(--archef-primary-color);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(26, 42, 74, 0.2);
+}
+
+
+/* --- No Data Message --- */
+.archef-no-data {
+    text-align: center;
+    padding: 5rem 2rem;
+    margin-top: 3rem;
+    background: var(--archef-bg-card) url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e0e4e8' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); /* خلفية بنمط خفيف */
+    border-radius: 12px;
+    box-shadow: var(--archef-shadow-card);
+    color: var(--archef-text-light);
+    border: 1px solid var(--archef-border-color);
+}
+.archef-no-data i {
+    font-size: 5rem;
+    color: var(--archef-accent-color); /* تغيير لون أيقونة "لا توجد بيانات" */
+    opacity: 0.8;
+    margin-bottom: 2rem;
+    display: block;
+    text-shadow: 0 2px 5px rgba(243, 156, 18, 0.2);
+}
+.archef-no-data p {
+    font-size: 1.15rem;
+    line-height: 1.9;
+    margin-bottom: 0.75rem;
+}
+.archef-no-data p:first-of-type {
+    font-family: var(--archef-font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--archef-text-color);
+}
+
+/* --- Responsive Adjustments --- */
+
+@media (max-width: 992px) { /* تعديل نقطة التوقف قليلاً */
+    .archef-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .archef-page-container { /* أضفت هذا لتقليل الهامش العلوي أكثر */
+        margin: 2rem auto;
+    }
+    .archef-header { /* تقليل الحشوة والـ margin-bottom للهيدر */
+        padding: 2rem 1.2rem;
+        margin-bottom: 2.5rem; /* تقليل المسافة تحت الهيدر */
+    }
+    .archef-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+    .archef-main-title {
+        font-size: 2rem; /* تقليل حجم الخط للتابلت */
+        margin-bottom: 0.5rem; /* تقليل المسافة تحت العنوان الرئيسي */
+    }
+    .archef-main-title i { /* تقليل حجم أيقونة العنوان الرئيسي */
+        font-size: 0.9em; /* أو ما يناسب الحجم الجديد للخط */
+        margin-left: 10px;
+    }
+    .archef-subtitle {
+        font-size: 1rem; /* تقليل حجم الخط الفرعي للتابلت */
+        line-height: 1.4; /* تقليل ارتفاع السطر إذا كان النص متعدد الأسطر */
+    }
+    .archef-card-title {
+        font-size: 1.4rem;
+    }
+    .archef-card-content {
+        padding: 1.8rem 1.5rem;
+    }
+    .archef-card-footer {
+        padding: 1rem 1.5rem;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .archef-btn {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+    }
+    .archef-btn:last-child { margin-bottom: 0; }
+}
+
+@media (max-width: 480px) { /* === التركيز هنا لتصحيح الهواتف === */
+    .archef-page-container {
+        margin: 1.5rem auto; /* تقليل الهامش العلوي أكثر للهواتف */
+        padding: 0 10px; /* تقليل الحشوة الجانبية للصفحة */
+    }
+    .archef-header {
+        padding: 1.5rem 1rem; /* تقليل الحشوة بشكل أكبر */
+        margin-bottom: 2rem; /* تقليل المسافة تحت الهيدر أكثر */
+        border-radius: 10px; /* تقليل دائرية الحواف قليلاً إذا أردت */
+    }
+    .archef-main-title {
+        font-size: 1.6rem; /* حجم خط أصغر بشكل ملحوظ للعنوان الرئيسي */
+        line-height: 1.3; /* ضبط ارتفاع السطر للعنوان الرئيسي */
+        margin-bottom: 0.4rem; /* تقليل المسافة تحت العنوان الرئيسي أكثر */
+        letter-spacing: 0.2px; /* تقليل تباعد الأحرف إذا كان كبيرًا */
+    }
+    .archef-main-title i {
+        font-size: 0.85em; /* تصغير أيقونة العنوان الرئيسي */
+        margin-left: 8px; /* تقليل المسافة بجانب الأيقونة */
+    }
+    .archef-subtitle {
+        font-size: 0.85rem; /* حجم خط أصغر بشكل ملحوظ للنص الفرعي */
+        line-height: 1.4; /* ضبط ارتفاع السطر للنص الفرعي */
+    }
+    .archef-card-title {
+        font-size: 1.2rem; /* تقليل حجم خط عنوان البطاقة */
+    }
+    .archef-card-abstract {
+        font-size: 0.9rem;
+    }
+    .archef-btn {
+        padding: 0.6rem 1rem; /* تقليل حشوة الأزرار */
+        font-size: 0.85rem; /* تقليل حجم خط الأزرار */
+    }
+    .archef-btn i { /* تقليل حجم أيقونات الأزرار */
+        font-size: 1.1em;
+        margin-left: 6px;
+    }
+}

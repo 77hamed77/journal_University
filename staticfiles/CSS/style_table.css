@@ -1,0 +1,181 @@
+/* static/CSS/style_table.css */
+
+/* --- General Table Styles --- */
+
+.table-container {
+    overflow-x: auto;
+    /* Ensures table is scrollable on small screens */
+    margin-top: 20px;
+    /* Space above the table container */
+    margin-bottom: 20px;
+    /* Space below the table container */
+    border: 1px solid #e0e0e0;
+    /* Optional: border around the container */
+    border-radius: 6px;
+    /* Optional: rounded corners for the container */
+    background-color: #fff;
+    /* Background for the container, if different from page */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    /* Subtle shadow for depth */
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Clean look, removes double borders */
+    font-size: 0.95em;
+    /* Slightly smaller font for table data */
+    color: #333;
+    /* Default text color */
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 12px 15px;
+    /* Ample padding for readability */
+    border: 1px solid #e7e7e7;
+    /* Light borders for cells */
+    text-align: right;
+    /* Default for RTL */
+    vertical-align: middle;
+    /* Align content vertically in the middle */
+    line-height: 1.5;
+    /* Good line spacing */
+}
+
+.custom-table thead {
+    background-color: #f8f9fa;
+    /* Light gray for table header background */
+}
+
+.custom-table thead tr th {
+    font-weight: 600;
+    /* Bold header text */
+    color: #2c3e50;
+    /* Darker, slightly desaturated blue for header text */
+    text-transform: capitalize;
+    /* Capitalize header text */
+    border-top: none;
+    /* Remove top border from header cells if table-container has one */
+    border-bottom-width: 2px;
+    /* Thicker bottom border for header */
+    border-bottom-color: #d1d9e0;
+}
+
+.custom-table tbody tr {
+    transition: background-color 0.15s ease-in-out;
+    /* Smooth hover effect */
+}
+
+.custom-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+    /* Very light gray for even rows (zebra striping) */
+}
+
+.custom-table tbody tr:hover {
+    background-color: #eef4fA;
+    /* Slightly bluish tint on hover */
+}
+
+.custom-table td:first-child,
+.custom-table th:first-child {
+    /* border-right: none; Remove if you don't want a border on the far right for RTL */
+}
+
+.custom-table td:last-child,
+.custom-table th:last-child {
+    /* border-left: none; Remove if you don't want a border on the far left for RTL */
+}
+
+
+/* --- Status Badges (often used within tables) --- */
+.status-badge {
+    padding: 4px 12px;
+    /* Adjust padding for a nice badge size */
+    border-radius: 15px;
+    /* Pill shape */
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #fff;
+    text-transform: capitalize;
+    display: inline-block;
+    line-height: 1.2;
+    /* Ensure text fits well */
+    text-align: center;
+    min-width: 60px;
+    /* Ensure a minimum width for consistency */
+}
+
+.status-active {
+    background-color: #28a745;
+    /* Green for active */
+    box-shadow: 0 1px 2px rgba(40, 167, 69, 0.3);
+}
+
+.status-pending {
+    background-color: #ffc107;
+    /* Yellow for pending */
+    color: #212529;
+    /* Dark text for better contrast on yellow */
+    box-shadow: 0 1px 2px rgba(255, 193, 7, 0.3);
+}
+
+.status-inactive,
+.status-rejected {
+    /* Example for other statuses */
+    background-color: #6c757d;
+    /* Gray for inactive/rejected */
+    box-shadow: 0 1px 2px rgba(108, 117, 125, 0.3);
+}
+
+/* --- Action buttons within table cells (if any, using existing small button styles) --- */
+/* You can re-use .custom-btn .btn-activate-xs, .btn-delete-xs from style_dashboard.css
+   or define specific table action button styles here if needed.
+   For example:
+*/
+.custom-table .custom-btn {
+    padding: 5px 10px;
+    font-size: 0.85em;
+    margin-right: 5px;
+    /* RTL: space to the right of a button if multiple */
+}
+
+.custom-table .custom-btn:last-child {
+    margin-right: 0;
+}
+
+/* For RTL, to ensure buttons in the 'إجراءات' column are spaced correctly */
+.custom-table td form {
+    margin-left: 0;
+    /* Reset margin from dashboard style if it conflicts */
+    margin-right: 3px;
+    /* Space between buttons in RTL */
+}
+
+.custom-table td form:first-child {
+    margin-right: 0;
+}
+
+
+/* --- Responsive considerations for tables --- */
+/* The .table-container with overflow-x: auto; is the primary way
+   to handle responsiveness for wide tables.
+   You can add more specific media queries if needed.
+*/
+@media (max-width: 600px) {
+    .custom-table {
+        font-size: 0.9em;
+        /* Slightly smaller font on very small screens */
+    }
+
+    .custom-table th,
+    .custom-table td {
+        padding: 8px 10px;
+        /* Reduce padding on smaller screens */
+    }
+
+    .status-badge {
+        font-size: 0.75em;
+        padding: 3px 8px;
+    }
+}

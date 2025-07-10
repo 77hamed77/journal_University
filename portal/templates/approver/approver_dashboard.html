@@ -9,104 +9,101 @@
 
 {% block content %}
 <div class="dashboard-container">
-    <h2 dir="rtl">مرحباً بك يا {{ user.username }} في لوحة تحكم مسؤول الموافقة</h2>
+    <h2 >مرحباً بك  في لوحة تحكم مسؤول الموافقة</h2>
 
     <!-- قسم طلبات تسجيل الباحثين المعلقة -->
     <div class="cardd">
-        <h3 dir="rtl" class="cardd-header cardd-header-info">
-            طلبات تسجيل الباحثين المعلقة ({{ pending_users.count }})
+        <h3 class="cardd-header cardd-header-info">
+            <span data-translate-key="dashboard_pending_users_title">طلبات تسجيل الباحثين المعلقة</span> ({{ pending_users.count }})
         </h3>
         {% if pending_users %}
             <ul class="item-list">
                 {% for p_user in pending_users %}
                 <li class="list-item">
-                    <span dir="rtl" class="item-info">
+                    <span class="item-info">
                         {{ p_user.username }} ({{ p_user.email }})<br>
-                        <small>انضم: {{ p_user.date_joined|date:"Y-m-d" }}</small>
+                        <small><span data-translate-key="dashboard_joined_label">انضم:</span> {{ p_user.date_joined|date:"Y-m-d" }}</small>
                     </span>
                     <span class="item-actions">
                         <form method="post" action="{% url 'portal:approve_user' p_user.id %}" class="action-form">
                             {% csrf_token %}
-                            <button type="submit" class="custom-btn btn-approve">موافقة</button>
+                            <button type="submit" class="custom-btn btn-approve" data-translate-key="approve_btn">موافقة</button>
                         </form>
                         <form method="post" action="{% url 'portal:reject_user' p_user.id %}" class="action-form">
                             {% csrf_token %}
-                            <button type="submit" class="custom-btn btn-reject" onclick="return confirm('هل أنت متأكد من رفض هذا المستخدم؟ سيتم حذفه.')">رفض</button>
+                            <button type="submit" class="custom-btn btn-reject" data-translate-key="reject_btn" data-confirm-key="confirm_reject_user">رفض</button>
                         </form>
                     </span>
                 </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p dir="rtl" class="no-items-message">لا توجد طلبات تسجيل معلقة.</p>
+            <p class="no-items-message" data-translate-key="dashboard_no_pending_users">لا توجد طلبات تسجيل معلقة حالياً.</p>
         {% endif %}
     </div> <!-- نهاية بطاقة طلبات الباحثين -->
 
     <!-- قسم الأبحاث المعلقة للمراجعة -->
     <div class="cardd">
-        <h3 dir="rtl" class="cardd-header cardd-header-success">
-            الأبحاث المعلقة للمراجعة ({{ pending_papers.count }})
+        <h3 class="cardd-header cardd-header-success">
+             <span data-translate-key="dashboard_pending_papers_title">الأبحاث المعلقة للمراجعة</span> ({{ pending_papers.count }})
         </h3>
         {% if pending_papers %}
             <ul class="item-list">
                 {% for paper in pending_papers %}
                 <li class="list-item">
-                    <div class="item-info" dir="rtl">
+                    <div class="item-info">
                         <h5 class="paper-title"><a href="{{ paper.document.url }}" target="_blank" class="paper-title-link">{{ paper.title }}</a></h5>
                         <p class="paper-details">
-                            <strong>الباحث:</strong> {{ paper.author.username }}<br>
-                            <strong>تاريخ التقديم:</strong> {{ paper.submission_date|date:"Y-m-d H:i" }}
+                            <strong><span data-translate-key="dashboard_author_label">الباحث:</span></strong> {{ paper.author.username }}<br>
+                            <strong><span data-translate-key="dashboard_submission_date_label">تاريخ التقديم:</span></strong> {{ paper.submission_date|date:"Y-m-d H:i" }}
                         </p>
                         <p class="paper-abstract"><em>{{ paper.abstract|truncatewords:30 }}</em></p>
                     </div>
                     <span class="item-actions">
                         <form method="post" action="{% url 'portal:approve_paper' paper.id %}" class="action-form">
                             {% csrf_token %}
-                            <button type="submit" class="custom-btn btn-publish">موافقة ونشر</button>
+                            <button type="submit" class="custom-btn btn-publish" data-translate-key="approve_publish_btn">موافقة ونشر</button>
                         </form>
                         <form method="post" action="{% url 'portal:reject_paper' paper.id %}" class="action-form">
                             {% csrf_token %}
-                            <button type="submit" class="custom-btn btn-reject-paper" onclick="return confirm('هل أنت متأكد من رفض هذا البحث؟')">رفض البحث</button>
+                            <button type="submit" class="custom-btn btn-reject-paper" data-translate-key="reject_paper_btn" data-confirm-key="confirm_reject_paper">رفض البحث</button>
                         </form>
                     </span>
                 </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p dir="rtl" class="no-items-message">لا توجد أبحاث معلقة للمراجعة.</p>
+            <p class="no-items-message" data-translate-key="dashboard_no_pending_papers">لا توجد أبحاث معلقة للمراجعة حالياً.</p>
         {% endif %}
     </div> <!-- نهاية بطاقة طلبات الأبحاث -->
 
-    {# يمكنك إلغاء التعليق عن هذا إذا أردت خط فاصل مرئي قبل الجدول #}
-    {# <hr class="separator-line"> #}
-
     <!-- قسم جميع الباحثين المسجلين -->
-    <div class="cardd"> {# الهامش بين هذه البطاقة والتي قبلها سيأتي من margin-bottom للبطاقة السابقة #}
-        <h3 dir="rtl" class="cardd-header cardd-header-secondary">
-            جميع الباحثين المسجلين ({{ all_researchers.count }})
+    <div class="cardd">
+        <h3 class="cardd-header cardd-header-secondary">
+            <span data-translate-key="dashboard_all_researchers_title">جميع الباحثين المسجلين</span> ({{ all_researchers.count }})
         </h3>
         {% if all_researchers %}
             <div class="table-container">
                 <table class="custom-table">
                     <thead>
-                        <tr dir="rtl">
-                            <th style="text-align: right;">اسم المستخدم</th>
-                            <th style="text-align: right;">البريد الإلكتروني</th>
-                            <th style="text-align: right;">الحالة</th>
-                            <th style="text-align: right;">تاريخ الانضمام</th>
-                            <th style="text-align: right;">إجراءات</th>
+                        <tr>
+                            <th data-translate-key="table_header_username">اسم المستخدم</th>
+                            <th data-translate-key="table_header_email">البريد الإلكتروني</th>
+                            <th data-translate-key="table_header_status">الحالة</th>
+                            <th data-translate-key="table_header_joined">تاريخ الانضمام</th>
+                            <th data-translate-key="table_header_actions">إجراءات</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for r_user in all_researchers %}
-                        <tr dir="rtl">
+                        <tr>
                             <td>{{ r_user.username }}</td>
                             <td>{{ r_user.email }}</td>
                             <td>
                                 {% if r_user.is_active %}
-                                    <span class="status-badge status-active">نشط</span>
+                                    <span class="status-badge status-active" data-translate-key="status_active">نشط</span>
                                 {% else %}
-                                    <span class="status-badge status-pending">معلق</span>
+                                    <span class="status-badge status-pending" data-translate-key="status_pending">معلق</span>
                                 {% endif %}
                             </td>
                             <td>{{ r_user.date_joined|date:"Y-m-d" }}</td>
@@ -114,12 +111,12 @@
                                 {% if not r_user.is_active %}
                                     <form method="post" action="{% url 'portal:approve_user' r_user.id %}" class="action-form">
                                         {% csrf_token %}
-                                        <button type="submit" class="custom-btn btn-activate-xs">تفعيل</button>
+                                        <button type="submit" class="custom-btn btn-activate-xs" data-translate-key="activate_btn">تفعيل</button>
                                     </form>
                                 {% endif %}
                                  <form method="post" action="{% url 'portal:reject_user' r_user.id %}" class="action-form">
                                      {% csrf_token %}
-                                     <button type="submit" class="custom-btn btn-delete-xs" onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم؟')">حذف</button>
+                                     <button type="submit" class="custom-btn btn-delete-xs" data-translate-key="delete_btn" data-confirm-key="confirm_delete_user">حذف</button>
                                  </form>
                             </td>
                         </tr>
@@ -128,7 +125,7 @@
                 </table>
             </div>
         {% else %}
-            <p dir="rtl" class="no-items-message">لا يوجد باحثون مسجلون.</p>
+            <p class="no-items-message" data-translate-key="dashboard_no_researchers">لا يوجد باحثون مسجلون حالياً.</p>
         {% endif %}
     </div> <!-- نهاية بطاقة جميع الباحثين -->
 
@@ -136,5 +133,32 @@
 {% endblock %}
 
 {% block extra_scripts %}
-{# أي سكربتات إضافية هنا #}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Handle translated confirmation dialogs ---
+    document.querySelectorAll('button[data-confirm-key]').forEach(button => {
+        button.addEventListener('click', function(event) {
+            // Stop the form from submitting immediately
+            event.preventDefault(); 
+            
+            const confirmKey = this.getAttribute('data-confirm-key');
+            const langCode = localStorage.getItem('language') || 'ar';
+            
+            // Get the translated message from the main translations object
+            // Ensure language.js is loaded before this script
+            const message = (window.translations && translations[langCode] && translations[langCode][confirmKey]) 
+                            ? translations[langCode][confirmKey] 
+                            : 'Are you sure?'; // Fallback message
+
+            if (confirm(message)) {
+                // If user clicks "OK", then submit the form
+                this.closest('form').submit(); 
+            }
+        });
+    });
+
+    // --- Handle welcome message with username ---
+
+});
+</script>
 {% endblock %}

@@ -5,6 +5,8 @@ from django.contrib import messages
 from .forms import ResearcherRegistrationForm, CustomAuthenticationForm, ResearchPaperForm
 from .models import User, ResearchPaper
 from django.conf import settings
+from django.views.decorators.clickjacking import xframe_options_exempt # <--- هذا السطر موجود بالفعل، وهو جيد
+from django.utils import timezone # <--- تم التأكد من وجود هذا السطر المهم
 
 
 # --- مساعدات (Helpers) للتحقق من دور المستخدم ---
@@ -24,8 +26,11 @@ def archef_view(request):
     context = {'papers': approved_papers}
     return render(request, 'archef.html', context)
 
+# --- هذا هو التعديل الوحيد المطلوب ---
+@xframe_options_exempt
 def contact_view(request):
     return render(request, 'contact.html')
+# ------------------------------------
 
 def roles_view(request):
     return render(request, 'roles.html')
@@ -113,16 +118,13 @@ def submit_research_view(request):
             return redirect('portal:researcher_dashboard')
         else:
             messages.error(request, 'يرجى تصحيح الأخطاء في النموذج.')
-    else: # في حال الوصول للرابط مباشرة (GET) أو خطأ في الفورم
-        # عادةً ما يتم تضمين الفورم في الداشبورد، لكن يمكن عمل صفحة منفصلة
-        # إذا كان الفورم معقدًا
-        # form = ResearchPaperForm()
-        return redirect('portal:researcher_dashboard') # أو عرض الفورم في صفحة منفصلة
-    # إذا فشل الفورم، ارجع إلى الداشبورد مع الأخطاء (سيتم هذا تلقائيًا إذا كان الفورم في الداشبورد)
+    else: 
+        return redirect('portal:researcher_dashboard') 
+    
     papers = ResearchPaper.objects.filter(author=request.user).order_by('-submission_date')
     context = {
         'papers': papers,
-        'form': form, # مرر الفورم مع الأخطاء
+        'form': form, 
     }
     return render(request, 'researcher/researcher_dashboard.html', context)
 
@@ -133,8 +135,7 @@ def submit_research_view(request):
 def approver_dashboard_view(request):
     pending_users = User.objects.filter(is_active=False, is_staff=False).order_by('date_joined')
     pending_papers = ResearchPaper.objects.filter(status='pending').order_by('submission_date')
-    # يمكنك إضافة قوائم أخرى مثل الأبحاث الموافق عليها/المرفوضة، كل المستخدمين، إلخ.
-    all_researchers = User.objects.filter(is_staff=False, is_superuser=False).order_by('username') # كل الباحثين (نشط وغير نشط)
+    all_researchers = User.objects.filter(is_staff=False, is_superuser=False).order_by('username')
 
     context = {
         'pending_users': pending_users,
@@ -147,11 +148,10 @@ def approver_dashboard_view(request):
 @user_passes_test(is_approver)
 def approve_user_view(request, user_id):
     user_to_approve = get_object_or_404(User, id=user_id, is_staff=False)
-    if request.method == 'POST': # تأكد أن الطلب POST للأمان
+    if request.method == 'POST': 
         user_to_approve.is_active = True
         user_to_approve.save()
         messages.success(request, f'تمت الموافقة على الباحث {user_to_approve.username}.')
-        # يمكنك إرسال إيميل للباحث هنا
     return redirect('portal:approver_dashboard')
 
 @login_required
@@ -159,12 +159,9 @@ def approve_user_view(request, user_id):
 def reject_user_view(request, user_id):
     user_to_reject = get_object_or_404(User, id=user_id, is_staff=False)
     if request.method == 'POST':
-        # يمكنك حذف المستخدم أو فقط تركه is_active=False مع سبب للرفض
-        # هنا سنقوم بحذفه كمثال، ولكن الأفضل تركه غير نشط مع سبب
         username = user_to_reject.username
         user_to_reject.delete()
         messages.info(request, f'تم رفض وحذف طلب الباحث {username}.')
-        # يمكنك إرسال إيميل للباحث هنا
     return redirect('portal:approver_dashboard')
 
 @login_required
@@ -174,10 +171,9 @@ def approve_paper_view(request, paper_id):
     if request.method == 'POST':
         paper_to_approve.status = 'approved'
         paper_to_approve.reviewed_by = request.user
-        paper_to_approve.review_date = timezone.now() # from django.utils import timezone
+        paper_to_approve.review_date = timezone.now()
         paper_to_approve.save()
         messages.success(request, f'تمت الموافقة على البحث "{paper_to_approve.title}".')
-        # يمكنك إرسال إيميل للباحث هنا
     return redirect('portal:approver_dashboard')
 
 @login_required
@@ -187,13 +183,7 @@ def reject_paper_view(request, paper_id):
     if request.method == 'POST':
         paper_to_reject.status = 'rejected'
         paper_to_reject.reviewed_by = request.user
-        paper_to_reject.review_date = timezone.now() # from django.utils import timezone
-        # يمكنك إضافة حقل لملاحظات الرفض في الفورم
-        # paper_to_reject.review_comments = request.POST.get('comments', '')
+        paper_to_reject.review_date = timezone.now()
         paper_to_reject.save()
         messages.info(request, f'تم رفض البحث "{paper_to_reject.title}".')
-        # يمكنك إرسال إيميل للباحث هنا
     return redirect('portal:approver_dashboard')
-
-# لا تنسَ استيراد timezone إذا استخدمته
-from django.utils import timezone

@@ -26,3 +26,10 @@ class ResearchPaperForm(forms.ModelForm):
         # widgets = {
         #     'abstract': forms.Textarea(attrs={'rows': 5}),
         # }
+# forms.py
+
+from django.utils.translation import gettext_lazy as _
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label=_("اسم المستخدم"))
+    password = forms.CharField(label=_("كلمة المرور"), widget=forms.PasswordInput)

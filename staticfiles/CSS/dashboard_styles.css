@@ -1,0 +1,453 @@
+/* --- Global Styles & Resets --- */
+:root {
+    --primary-color: #007bff;
+    --primary-color-dark: #0056b3;
+    --secondary-color: #6c757d;
+    --light-bg: #f4f7f6;
+    --white-bg: #ffffff;
+    --text-color: #333;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --card-shadow: 0 6px 12px rgba(0, 0, 0, 0.09), 0 2px 4px rgba(0,0,0,0.06);
+    --card-hover-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0,0,0,0.08);
+    --font-family-base: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    font-family: var(--font-family-base);
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    line-height: 1.65; /* تحسين طفيف لسهولة القراءة */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* منع التمرير الأفقي غير المرغوب فيه */
+}
+
+.page-container {
+    max-width: 1200px;
+    margin: 2.5rem auto; /* زيادة الهامش العلوي قليلاً */
+    padding: 0 25px;
+    opacity: 0; /* للتحريك عند التحميل */
+    animation: fadeInContainer 0.8s 0.2s ease-out forwards;
+}
+
+@keyframes fadeInContainer {
+    to { opacity: 1; }
+}
+
+/* --- Dashboard Specific Styles --- */
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-color-dark));
+    color: #fff;
+    border-radius: 12px; /* زوايا أكثر دائرية */
+    box-shadow: 0 8px 25px rgba(0, 86, 179, 0.25); /* ظل أكثر بروزًا ولونًا */
+    transform: translateY(-20px);
+    opacity: 0;
+    animation: slideDownFadeIn 0.7s 0.4s ease-out forwards;
+}
+
+@keyframes slideDownFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-header h2 {
+    margin: 0;
+    font-size: 2.2rem; /* تكبير الخط قليلاً */
+    font-weight: 700;
+    letter-spacing: 0.5px; /* تباعد خفيف بين الأحرف */
+}
+
+.dashboard-section {
+    background-color: var(--white-bg);
+    margin-bottom: 2.5rem;
+    border-radius: 12px; /* زوايا أكثر دائرية */
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    /* سيتم تطبيق التحريك بشكل متتابع عبر تعديل في HTML إذا أمكن */
+    animation: slideUpFadeInItem 0.6s ease-out forwards;
+    /* يمكن تطبيق تأخير مختلف لكل قسم إذا عدلت HTML لإضافة متغير CSS */
+    animation-delay: calc(var(--section-index, 0) * 0.15s + 0.6s);
+}
+
+@keyframes slideUpFadeInItem {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-section:hover {
+    transform: translateY(-8px); /* تأثير رفع أوضح */
+    box-shadow: var(--card-hover-shadow);
+}
+
+.section-header {
+    padding: 1.2rem 1.8rem; /* زيادة الحشوة قليلاً */
+    background-color: #f8f9fa; /* لون أفتح قليلاً وأكثر حيادية */
+    border-bottom: 1px solid var(--border-color);
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 1.6rem; /* تكبير الخط قليلاً */
+    color: #2c3e50; /* لون أغمق وأكثر احترافية */
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.section-header .icon {
+    margin-left: 12px; /* لـ dir="rtl" */
+    color: var(--primary-color);
+    font-size: 1.4em;
+    transition: transform 0.3s ease;
+}
+.section-header:hover .icon {
+    transform: scale(1.1) rotate(-5deg); /* حركة طفيفة للأيقونة عند مرور الماوس على رأس القسم */
+}
+
+.section-content {
+    padding: 1.8rem 2.2rem; /* زيادة الحشوة */
+}
+
+/* --- Form Styling --- */
+.form-container form p {
+    margin-bottom: 1.5rem; /* زيادة المسافة */
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+    color: #34495e; /* لون أغمق للتسمية */
+    font-size: 1.05rem; /* تكبير طفيف */
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"],
+.form-container input[type="file"],
+.form-container textarea,
+.form-container select {
+    width: 100%;
+    padding: 0.85rem 1.1rem; /* زيادة الحشوة الداخلية */
+    border: 1px solid #bcccdc; /* لون حد أنعم */
+    border-radius: 8px; /* زوايا أكثر دائرية */
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 1rem; /* تكبير حجم الخط داخل الحقل */
+    color: var(--text-color);
+    background-color: #fdfdfe; /* خلفية فاتحة جداً للحقل */
+    transition: border-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out, background-color 0.25s ease;
+}
+
+.form-container input[type="file"] {
+    padding: 0.75rem 1.1rem;
+    background-color: var(--white-bg); /* لتمييز حقل الملف */
+}
+.form-container input[type="file"]::file-selector-button {
+    margin-right: 10px; /* لـ dir="rtl" */
+    padding: 0.6em 1em;
+    border-radius: 6px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.form-container input[type="file"]::file-selector-button:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.form-container input:focus,
+.form-container textarea:focus,
+.form-container select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.2); /* ظل أخف */
+    outline: none;
+    background-color: var(--white-bg);
+}
+
+/* --- Button Styling --- */
+.btn {
+    padding: 0.75rem 1.5rem; /* حشوة أكبر قليلاً */
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease; /* انتقال لجميع الخصائص */
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize; /* أو اتركه كما هو */
+}
+.btn i {
+    margin-left: 8px; /* لـ dir="rtl" */
+    transition: transform 0.2s ease;
+}
+.btn:hover i {
+    transform: translateX(-2px); /* حركة طفيفة للأيقونة بالزر */
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-dark);
+    transform: translateY(-3px) scale(1.02); /* تأثير رفع وتكبير طفيف */
+    box-shadow: 0 5px 12px rgba(0, 123, 255, 0.35);
+}
+.btn-primary:active {
+    transform: translateY(-1px) scale(0.99);
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+}
+
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+    box-shadow: 0 3px 8px rgba(255, 193, 7, 0.25);
+}
+.btn-warning:hover {
+    background-color: #e0a800;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 12px rgba(255, 193, 7, 0.35);
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.btn-submit-research {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.9rem 1.8rem;
+    font-size: 1.15rem;
+}
+
+/* --- Table Styling --- */
+.table-responsive {
+    overflow-x: auto;
+    border-radius: 8px; /* زوايا دائرية للحاوية إذا كانت مرئية */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* ظل خفيف للجدول */
+}
+
+.papers-table {
+    width: 100%;
+    border-collapse: separate; /* مهم لاستخدام border-spacing وتأثيرات الحدود */
+    border-spacing: 0; /* إزالة المسافات الافتراضية */
+    margin-top: 1rem;
+    font-size: 0.95rem; /* حجم خط أصغر قليلاً للجدول */
+}
+
+.papers-table th,
+.papers-table td {
+    padding: 1rem 1.1rem; /* زيادة الحشوة */
+    text-align: right;
+    border-bottom: 1px solid #f0f0f0; /* خط فاصل أفتح */
+    vertical-align: middle;
+}
+
+.papers-table thead th {
+    background-color: #f8f9fa;
+    color: #34495e; /* لون نص أغمق لرؤوس الأعمدة */
+    font-weight: 700;
+    font-size: 1rem;
+    border-top: 1px solid var(--border-color); /* حد علوي لرأس الجدول */
+    border-bottom-width: 2px;
+    border-color: var(--border-color);
+}
+.papers-table thead th:first-child { border-top-right-radius: 8px; } /* لـ dir="rtl" */
+.papers-table thead th:last-child { border-top-left-radius: 8px; }   /* لـ dir="rtl" */
+
+
+.papers-table tbody tr {
+    transition: background-color 0.25s ease, transform 0.25s ease;
+    opacity: 0;
+    transform: translateX(20px); /* لـ dir="rtl" سيكون translateX(-20px) */
+    animation: slideInFromRight 0.5s ease-out forwards;
+    /* يمكن تطبيق تأخير مختلف لكل صف إذا عدلت HTML لإضافة متغير CSS */
+    animation-delay: calc(var(--row-index, 0) * 0.08s + 1s); /* تأخير إضافي لبدء تحريك الصفوف */
+}
+[dir="rtl"] .papers-table tbody tr {
+    transform: translateX(-20px);
+}
+
+
+@keyframes slideInFromRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+.papers-table tbody tr:hover {
+    background-color: #eef7ff; /* لون أزرق فاتح جداً عند المرور */
+    transform: scale(1.005); /* تكبير طفيف جداً للصف */
+}
+
+.papers-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.papers-table tbody td:first-child { border-right: 3px solid transparent; transition: border-color 0.3s; } /* لـ dir="rtl" */
+.papers-table tbody tr:hover td:first-child { border-right-color: var(--primary-color); } /* لـ dir="rtl" */
+
+
+.paper-title-link {
+    color: var(--primary-color-dark);
+    text-decoration: none;
+    font-weight: 600;
+    position: relative; /* لإنشاء خط سفلي متحرك */
+}
+.paper-title-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -3px;
+    right: 0; /* لـ dir="rtl" */
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+.paper-title-link:hover::after {
+    width: 100%;
+}
+.paper-title-link:hover {
+    color: var(--primary-color);
+}
+
+/* --- Status Badges --- */
+.badge {
+    display: inline-flex; /* لـ align-items */
+    align-items: center;
+    padding: 0.5em 0.9em; /* حشوة أفضل */
+    font-size: 0.875em; /* حجم خط أنسب */
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 50px; /* لجعلها pill-shaped تماماً */
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1); /* ظل نصي خفيف */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.badge:hover {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+.badge i {
+    margin-left: 6px; /* لـ dir="rtl" */
+    font-size: 0.95em;
+    line-height: 0; /* لمواءمة أفضل للأيقونة */
+}
+
+.status-pending { background: linear-gradient(45deg, #ffc107, #ffca2c); color: #212529; --status-color-rgb: 255, 193, 7; }
+.status-approved { background: linear-gradient(45deg, #198754, #1cb06a); --status-color-rgb: 25, 135, 84; }
+.status-rejected { background: linear-gradient(45deg, #dc3545, #e44d5a); --status-color-rgb: 220, 53, 69; }
+.status-revision { background: linear-gradient(45deg, #0dcaf0, #34d5f4); color: #000; --status-color-rgb: 13, 202, 240; }
+
+/* نبض خفيف لشارات معينة (اختياري) */
+.status-pending, .status-revision {
+    /* animation: pulseBadge 2s infinite ease-in-out; */
+}
+@keyframes pulseBadge {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 3px rgba(var(--status-color-rgb), 0.2); }
+    50% { transform: scale(1.03); box-shadow: 0 0 8px rgba(var(--status-color-rgb), 0.4); }
+}
+
+
+/* --- No Data Message --- */
+.no-data-message {
+    text-align: center;
+    padding: 3rem 2rem; /* زيادة الحشوة */
+    color: var(--text-muted);
+    border: 2px dashed var(--border-color); /* حد منقط */
+    border-radius: 10px;
+    background-color: #fcfcfc;
+}
+.no-data-message i {
+    font-size: 3.5rem; /* تكبير الأيقونة */
+    margin-bottom: 1rem;
+    display: block;
+    color: #ced4da; /* لون أفتح للأيقونة */
+}
+.no-data-message p {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* --- Section Divider --- */
+.section-divider {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.12), rgba(0,0,0,0));
+    margin: 3.5rem 0; /* زيادة المسافة */
+}
+
+
+/* --- Responsive adjustments for smaller screens (optional but recommended) --- */
+@media (max-width: 768px) {
+    .page-container {
+        margin: 1.5rem auto;
+        padding: 0 15px;
+    }
+    .dashboard-header h2 {
+        font-size: 1.8rem;
+    }
+    .section-header h3 {
+        font-size: 1.4rem;
+    }
+    .section-content {
+        padding: 1.2rem 1.5rem;
+    }
+
+    /* Table responsiveness: Stack rows */
+    .papers-table thead { display: none; }
+    .papers-table tr {
+        display: block;
+        margin-bottom: 1.2rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white-bg);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        padding: 0.5rem; /* حشوة داخلية للـ "بطاقة" */
+    }
+    .papers-table td {
+        display: flex; /* استخدام flex لمواءمة أفضل */
+        justify-content: space-between; /* توزيع المسافة بين التسمية والقيمة */
+        align-items: center;
+        text-align: right;
+        padding: 0.7rem 0.5rem; /* تعديل الحشوة */
+        position: relative;
+        border-bottom: 1px dotted #f0f0f0; /* فاصل منقط أنعم */
+    }
+    .papers-table td:last-child { border-bottom: none; }
+    .papers-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #555;
+        margin-left: 10px; /* لـ dir="rtl" */
+        white-space: nowrap;
+    }
+    /* إخفاء data-label إذا لم تكن هناك قيمة أو إذا كانت إجراءات مثلاً */
+    .papers-table td[data-label="الإجراءات"]::before {
+        /* يمكن تركها أو إخفاؤها إذا كان محتوى الخلية واضحًا */
+    }
+}

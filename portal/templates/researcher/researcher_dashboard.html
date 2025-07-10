@@ -6,26 +6,24 @@
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'CSS/dashboard_styles.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    {# Font Awesome CDN for icons - يفضل وضعه في base.html إذا كان مستخدماً بشكل عام #}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock %}
 
 {% block content %}
-<div class="page-container" dir="rtl">
+<div class="page-container">
     <header class="dashboard-header">
-        <h2>مرحباً بك يا {{ user.first_name|default:user.username }} في لوحة تحكم الباحث</h2>
+        <h2 data-translate-key="researcher_dashboard_welcome" data-username="{{ user.first_name|default:user.username }}">مرحباً بك يا {{ user.first_name|default:user.username }} في لوحة تحكم الباحث</h2>
     </header>
 
-    {# القسم الأول: تقديم بحث جديد - فهرس التحريك 0 #}
+    {# القسم الأول: تقديم بحث جديد #}
     <section class="dashboard-section" id="submit-research-section" style="--section-index: 0;">
         <div class="section-header">
-            <h3><i class="fas fa-file-alt icon"></i> تقديم بحث جديد</h3>
+            <h3><i class="fas fa-file-alt icon"></i> <span data-translate-key="researcher_dashboard_submit_title">تقديم بحث جديد</span></h3>
         </div>
         <div class="section-content form-container">
             <form method="post" action="{% url 'portal:submit_research' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 
-                {# عرض حقول الفورم يدوياً للتحكم الكامل أو استخدام form.as_p إذا كان كافياً #}
                 {% if form.non_field_errors %}
                     <div class="form-errors global-errors">
                         {% for error in form.non_field_errors %}
@@ -52,7 +50,7 @@
                 {% endfor %}
                 
                 <button type="submit" class="btn btn-primary btn-submit-research">
-                    <i class="fas fa-paper-plane"></i> إرسال البحث
+                    <i class="fas fa-paper-plane"></i> <span data-translate-key="researcher_dashboard_submit_btn">إرسال البحث</span>
                 </button>
             </form>
         </div>
@@ -60,10 +58,10 @@
 
     <hr class="section-divider">
 
-    {# القسم الثاني: الأبحاث المقدمة - فهرس التحريك 1 #}
+    {# القسم الثاني: الأبحاث المقدمة #}
     <section class="dashboard-section" id="my-papers-section" style="--section-index: 1;">
         <div class="section-header">
-            <h3><i class="fas fa-folder-open icon"></i> أبحاثك المقدمة</h3>
+            <h3><i class="fas fa-folder-open icon"></i> <span data-translate-key="researcher_dashboard_my_papers_title">أبحاثك المقدمة</span></h3>
         </div>
         <div class="section-content">
             {% if papers %}
@@ -71,38 +69,36 @@
                     <table class="papers-table">
                         <thead>
                             <tr>
-                                <th>عنوان البحث</th>
-                                <th>تاريخ التقديم</th>
-                                <th>حالة البحث</th>
-                                <th>ملاحظات المحكمين</th>
-                                <th>الإجراءات</th>
+                                <th data-translate-key="papers_table_title">عنوان البحث</th>
+                                <th data-translate-key="papers_table_submission_date">تاريخ التقديم</th>
+                                <th data-translate-key="papers_table_status">حالة البحث</th>
+                                <th data-translate-key="papers_table_comments">ملاحظات المحكمين</th>
+                                <th data-translate-key="papers_table_actions">الإجراءات</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for paper in papers %}
-                            {# فهرس التحريك لكل صف في الجدول #}
                             <tr style="--row-index: {{ forloop.counter0 }};">
                                 <td data-label="عنوان البحث"><a href="{{ paper.document.url }}" target="_blank" class="paper-title-link">{{ paper.title }}</a></td>
                                 <td data-label="تاريخ التقديم">{{ paper.submission_date|date:"Y-m-d H:i" }}</td>
                                 <td data-label="حالة البحث">
                                     {% if paper.status == 'pending' %}
-                                        <span class="badge status-badge status-pending"><i class="fas fa-clock"></i> قيد المراجعة</span>
+                                        <span class="badge status-badge status-pending"><i class="fas fa-clock"></i> <span data-translate-key="status_pending_review">قيد المراجعة</span></span>
                                     {% elif paper.status == 'approved' %}
-                                        <span class="badge status-badge status-approved"><i class="fas fa-check-circle"></i> مقبول</span>
+                                        <span class="badge status-badge status-approved"><i class="fas fa-check-circle"></i> <span data-translate-key="status_approved">مقبول</span></span>
                                     {% elif paper.status == 'rejected' %}
-                                        <span class="badge status-badge status-rejected"><i class="fas fa-times-circle"></i> مرفوض</span>
+                                        <span class="badge status-badge status-rejected"><i class="fas fa-times-circle"></i> <span data-translate-key="status_rejected">مرفوض</span></span>
                                     {% elif paper.status == 'needs_revision' %}
-                                        <span class="badge status-badge status-revision"><i class="fas fa-edit"></i> يتطلب تعديل</span>
+                                        <span class="badge status-badge status-revision"><i class="fas fa-edit"></i> <span data-translate-key="status_needs_revision">يتطلب تعديل</span></span>
                                     {% else %}
-                                        <span class="badge status-badge">{{ paper.get_status_display }}</span> {# كحل احتياطي إذا كانت هناك حالات أخرى #}
+                                        <span class="badge status-badge">{{ paper.get_status_display }}</span> 
                                     {% endif %}
                                 </td>
-                                <td data-label="ملاحظات المحكمين">{{ paper.review_comments|default_if_none:"لا توجد ملاحظات حالياً"|linebreaksbr }}</td>
+                                <td data-label="ملاحظات المحكمين">{{ paper.review_comments|default_if_none:""|linebreaksbr }}</td>
                                 <td data-label="الإجراءات">
                                     {% if paper.status == 'needs_revision' %}
-                                        {# افترض أن لديك URL لإعادة التقديم #}
-                                        <a href="#" class="btn btn-sm btn-warning"> {/* {% url 'portal:resubmit_research' paper.id %} */}
-                                            <i class="fas fa-redo-alt"></i> إعادة تقديم
+                                        <a href="#" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-redo-alt"></i> <span data-translate-key="resubmit_btn">إعادة تقديم</span>
                                         </a>
                                     {% else %}
                                         -
@@ -116,9 +112,9 @@
             {% else %}
                 <div class="no-data-message">
                     <i class="fas fa-folder-minus"></i>
-                    <p>لم تقم بتقديم أي أبحاث بعد.</p>
+                    <p data-translate-key="researcher_dashboard_no_papers">لم تقم بتقديم أي أبحاث بعد.</p>
                     <a href="#submit-research-section" class="btn btn-primary" style="margin-top: 1rem;">
-                        <i class="fas fa-plus-circle"></i> قدم بحثك الأول الآن
+                        <i class="fas fa-plus-circle"></i> <span data-translate-key="researcher_dashboard_submit_first">قدم بحثك الأول الآن</span>
                     </a>
                 </div>
             {% endif %}
@@ -128,15 +124,7 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    {# Font Awesome JS - يفضل وضعه في base.html إذا كان مستخدماً بشكل عام 
-       ويمكنك استخدام إصدار CSS فقط إذا كنت لا تحتاج لميزات JS المتقدمة من FontAwesome #}
-    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script> #}
-
     <script>
-        // يمكن إضافة أي JavaScript تفاعلي هنا إذا لزم الأمر
-        // على سبيل المثال، تأكيد قبل الحذف، أو إظهار/إخفاء عناصر معينة
-
-        // للتأكد من أن التمرير إلى قسم تقديم البحث يعمل بسلاسة إذا لم تكن هناك أبحاث
         document.addEventListener('DOMContentLoaded', function() {
             const submitFirstPaperButton = document.querySelector('.no-data-message .btn-primary');
             if (submitFirstPaperButton) {
@@ -147,6 +135,18 @@
                         targetSection.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
+            }
+
+            // --- Handle welcome message with username ---
+            const welcomeElement = document.querySelector('[data-translate-key="researcher_dashboard_welcome"]');
+            if (welcomeElement) {
+                const username = welcomeElement.getAttribute('data-username');
+                const langCode = localStorage.getItem('language') || 'ar';
+                const welcomeText = (window.translations && translations[langCode] && translations[langCode]['researcher_dashboard_welcome'])
+                                    ? translations[langCode]['researcher_dashboard_welcome']
+                                    : `Welcome, ${{username}}, to the Researcher Dashboard`;
+                
+                welcomeElement.innerHTML = welcomeText.replace(${{username}}$, username);
             }
         });
     </script>

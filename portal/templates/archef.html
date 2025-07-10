@@ -6,38 +6,37 @@
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'CSS/style_archef.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-    {# Font Awesome CDN - يفضل وضعه في base.html #}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Playfair+Display:wght@700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-    
 {% endblock %}
 
 {% block content %}
-<div class="archef-page-container" dir="rtl">
+<div class="archef-page-container">
     <header class="archef-header">
-        <h1 class="archef-main-title"><i class="fas fa-archive"></i> أرشيف الأبحاث العلمية</h1>
-        <p class="archef-subtitle">تصفح أحدث الأبحاث والدراسات المنشورة في مجلتنا</p>
+        <h1 class="archef-main-title animate__animated animate__fadeIn"><i class="fas fa-archive"></i> <span data-translate-key="archef_mainTitle">أرشيف الأبحاث العلمية</span></h1>
+        <p class="archef-subtitle animate__animated animate__fadeInUp" data-translate-key="archef_subtitle">تصفح أحدث الأبحاث والدراسات المنشورة في مجلتنا</p>
     </header>
 
     {% if papers %}
         <div class="archef-grid">
             {% for paper in papers %}
-            <div class="archef-card" style="--card-index: {{ forloop.counter0 }};">
+            <div class="archef-card animate__animated animate__fadeInUp" style="--card-index: {{ forloop.counter0 }}; animation-delay: {{ forloop.counter0|add:1 }}00ms;">
                 <div class="archef-card-content">
                     <h3 class="archef-card-title">
-                        <a href="{{ paper.document.url }}" target="_blank" title="تحميل البحث: {{ paper.title }}">{{ paper.title }}</a>
+                        <a href="{{ paper.document.url }}" target="_blank" title="{{ paper.title }}">{{ paper.title }}</a>
                     </h3>
                     <div class="archef-card-meta">
                         <span class="archef-meta-item author-meta">
-                            <i class="fas fa-user-edit"></i> الباحث: {{ paper.author.get_full_name|default:paper.author.username }}
+                            <i class="fas fa-user-edit"></i> <span data-translate-key="archef_authorLabel">الباحث:</span> {{ paper.author.get_full_name|default:paper.author.username }}
                         </span>
                         <span class="archef-meta-item date-meta">
-                            <i class="fas fa-calendar-alt"></i> تاريخ النشر: {{ paper.review_date|date:"d M Y" }}
+                            <i class="fas fa-calendar-alt"></i> <span data-translate-key="archef_dateLabel">تاريخ النشر:</span> {{ paper.review_date|date:"d M Y" }}
                         </span>
-                         {% comment %} {# يمكنك إضافة قسم/مجال البحث هنا إذا كان متاحاً #}
-                        {# <span class="archef-meta-item field-meta">
-                            <i class="fas fa-tags"></i> المجال: {{ paper.field_of_study }}
-                        </span> #} {% endcomment %}
+                        {% if paper.field_of_study %}
+                            <span class="archef-meta-item field-meta">
+                                <i class="fas fa-tags"></i> <span data-translate-key="archef_fieldLabel">المجال:</span> {{ paper.field_of_study }}
+                            </span>
+                        {% endif %}
                     </div>
                     <p class="archef-card-abstract">
                         {{ paper.abstract|truncatewords_html:35|safe }}
@@ -45,26 +44,36 @@
                 </div>
                 <div class="archef-card-footer">
                     <a href="{{ paper.document.url }}" class="archef-btn archef-btn-primary" target="_blank">
-                        <i class="fas fa-file-pdf"></i> تحميل البحث (PDF)
+                        <i class="fas fa-file-pdf"></i> <span data-translate-key="archef_downloadBtn">تحميل البحث (PDF)</span>
                     </a>
-                    {% comment %} {# يمكن إضافة رابط لصفحة تفاصيل البحث إذا كانت موجودة #}
-                    {# <a href="{% url 'portal:paper_detail' paper.slug %}" class="archef-btn archef-btn-secondary">
-                        <i class="fas fa-info-circle"></i> اقرأ المزيد
-                    </a> #} {% endcomment %}
+                    {% if paper.slug %}
+                        <a href="{% url 'portal:paper_detail' paper.slug %}" class="archef-btn archef-btn-secondary">
+                            <i class="fas fa-info-circle"></i> <span data-translate-key="archef_readMoreBtn">اقرأ المزيد</span>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
+        <div class="archef-pagination">
+            {% if papers.has_previous %}
+                <a href="?page={{ papers.previous_page_number }}" class="archef-btn archef-btn-secondary"><i class="fas fa-chevron-right"></i> <span data-translate-key="archef_prevBtn">السابق</span></a>
+            {% endif %}
+            {% if papers.has_next %}
+                <a href="?page={{ papers.next_page_number }}" class="archef-btn archef-btn-secondary"><i class="fas fa-chevron-left"></i> <span data-translate-key="archef_nextBtn">التالي</span></a>
+            {% endif %}
+        </div>
     {% else %}
-        <div class="archef-no-data">
+        <div class="archef-no-data animate__animated animate__fadeIn">
             <i class="fas fa-folder-open"></i>
-            <p>لا توجد أبحاث منشورة حاليًا في الأرشيف.</p>
-            <p>نعمل باستمرار على إضافة المزيد من المحتوى القيم. يرجى التحقق مرة أخرى قريبًا!</p>
+            <p data-translate-key="archef_noData1">لا توجد أبحاث منشورة حاليًا في الأرشيف.</p>
+            <p data-translate-key="archef_noData2">نعمل باستمرار على إضافة المزيد من المحتوى القيم. يرجى التحقق مرة أخرى قريبًا!</p>
         </div>
     {% endif %}
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
-    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script> #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.js"></script>
+    <script src="{% static 'js/archef.js' %}"></script>
 {% endblock %}

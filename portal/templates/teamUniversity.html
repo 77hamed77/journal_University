@@ -4,245 +4,211 @@
 {% block title %}مجلة شام | هيئة التحرير{% endblock %}
 
 {% block extra_head %}
-    <!-- SwiperJS CSS محمل بالفعل في base.html -->
-    <!-- ملف style.css و all.css محملان بالفعل في base.html -->
-    <!-- إذا كان هناك CSS إضافي خاص فقط بهذه الصفحة، يمكن إضافته هنا -->
+    <!-- أي CSS إضافي لهذه الصفحة -->
 {% endblock %}
 
 {% block content %}
     <div class="draw-underlay">
       <div class="fixed-draw">
         <div class="blob">
-          <svg
-            viewBox="0 0 200 200"
-            xmlns="http://www.w3.org/2000/svg"
-            id="blobSvg"
-          >
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" id="blobSvg">
             <defs>
               <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" style="stop-color: #0a4670"></stop>
-                <!-- 0376c1 --> <!-- تم إزالة هذا النص لأنه ليس جزءًا من تعريف اللون -->
                 <stop offset="100%" style="stop-color: #0376c1"></stop>
               </linearGradient>
             </defs>
             <path fill="url(#gradient)" transform="translate(100 100)">
-              <animate
-                attributeName="d"
-                dur="10s"
-                repeatCount="indefinite"
-                values="M41.4,-48.2C55.3,-37.8,69.1,-26.2,73.4,-11.5C77.8,3.2,72.6,21.1,62.9,35C53.3,49,39.3,59.2,24,63.7C8.8,68.3,-7.7,67.3,-22.8,62C-38,56.8,-51.9,47.4,-58.1,34.5C-64.3,21.7,-62.9,5.4,-62.3,-13.3C-61.7,-31.9,-62,-53,-51.7,-64.1C-41.5,-75.2,-20.7,-76.2,-3.5,-72C13.8,-67.9,27.6,-58.6,41.4,-48.2Z;
+              <animate attributeName="d" dur="10s" repeatCount="indefinite" values="M41.4,-48.2C55.3,-37.8,69.1,-26.2,73.4,-11.5C77.8,3.2,72.6,21.1,62.9,35C53.3,49,39.3,59.2,24,63.7C8.8,68.3,-7.7,67.3,-22.8,62C-38,56.8,-51.9,47.4,-58.1,34.5C-64.3,21.7,-62.9,5.4,-62.3,-13.3C-61.7,-31.9,-62,-53,-51.7,-64.1C-41.5,-75.2,-20.7,-76.2,-3.5,-72C13.8,-67.9,27.6,-58.6,41.4,-48.2Z;
                     M52.6,-59.8C68.8,-49.1,83,-33.1,84.6,-16.1C86.2,0.9,75.3,19,63.1,32.9C50.9,46.7,37.4,56.3,23.6,58.6C9.9,60.8,-4.3,55.7,-18.4,50.5C-32.4,45.3,-46.5,40.1,-58,29.1C-69.6,18.1,-78.7,1.3,-75.3,-12.5C-71.9,-26.3,-56.1,-37.2,-41.5,-48.1C-26.9,-59,-13.4,-70,2.4,-72.9C18.2,-75.7,36.4,-70.4,52.6,-59.8Z;
                     M45.4,-51.6C60.6,-41.3,75.9,-28.7,82.1,-11.8C88.3,5.1,85.2,26.3,73.9,39.7C62.6,53.2,43.1,59,25.1,63C7,67,-9.5,69.2,-25.9,65.7C-42.4,62.1,-58.8,52.8,-70,38.1C-81.3,23.5,-87.3,3.5,-85.1,-16C-82.8,-35.5,-72.2,-54.5,-56.7,-64.6C-41.1,-74.8,-20.6,-76.1,-2.7,-72.9C15.1,-69.6,30.2,-61.8,45.4,-51.6Z;
                     M53.3,-64.1C68.1,-51,78.5,-33.4,77.5,-16.9C76.5,-0.5,64.2,14.8,53.3,28.2C42.5,41.6,33,53.2,20.2,59.7C7.4,66.2,-8.8,67.5,-20.7,61.3C-32.7,55.1,-40.3,41.4,-46.3,28.1C-52.3,14.8,-56.7,2,-56.9,-12.4C-57.1,-26.8,-53.2,-42.7,-43,-56.6C-32.9,-70.4,-16.4,-82.1,1.4,-83.8C19.2,-85.5,38.5,-77.1,53.3,-64.1Z;
-                    M41.4,-48.2C55.3,-37.8,69.1,-26.2,73.4,-11.5C77.8,3.2,72.6,21.1,62.9,35C53.3,49,39.3,59.2,24,63.7C8.8,68.3,-7.7,67.3,-22.8,62C-38,56.8,-51.9,47.4,-58.1,34.5C-64.3,21.7,-62.9,5.4,-62.3,-13.3C-61.7,-31.9,-62,-53,-51.7,-64.1C-41.5,-75.2,-20.7,-76.2,-3.5,-72C13.8,-67.9,27.6,-58.6,41.4,-48.2Z;"
-              ></animate>
+                    M41.4,-48.2C55.3,-37.8,69.1,-26.2,73.4,-11.5C77.8,3.2,72.6,21.1,62.9,35C53.3,49,39.3,59.2,24,63.7C8.8,68.3,-7.7,67.3,-22.8,62C-38,56.8,-51.9,47.4,-58.1,34.5C-64.3,21.7,-62.9,5.4,-62.3,-13.3C-61.7,-31.9,-62,-53,-51.7,-64.1C-41.5,-75.2,-20.7,-76.2,-3.5,-72C13.8,-67.9,27.6,-58.6,41.4,-48.2Z;"></animate>
             </path>
           </svg>
         </div>
       </div>
       <section class="section-main2">
         <div class="title-main">
-          <h2 dir="rtl" class="title">هيئة التحرير</h2>
+          <h2 class="title" data-translate-key="team_pageTitle">هيئة التحرير</h2>
         </div>
         <div class="container swiper mySwiper">
           <div class="swiper-wrapper cart-list">
-            <div class="cart-item swiper-slide" >
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">أ.د.ميسر الحسن</h2>
-              <h2 dir="rtl" class="user-profession e-e">رئيس هيئة التحرير</h2>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+            
+            <div class="cart-item swiper-slide">
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member1_name">أ.د.ميسر الحسن</h2>
+              <h2 class="user-profession e-e" data-translate-key="team_member1_role">رئيس هيئة التحرير</h2>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.محمد نادر عثمان</h2>
-              <p dir="rtl" class="user-profession">محاسبة</p>
-              <p dir="rtl" class="user-profession">جامعة حلب الحرة</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member2_name">د.محمد نادر عثمان</h2>
+              <p class="user-profession" data-translate-key="spec_accounting">محاسبة</p>
+              <p class="user-profession" data-translate-key="uni_aleppo">جامعة حلب الحرة</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.مصطفى حاج ديبو</h2>
-              <p dir="rtl" class="user-profession">هندسة الميكاترونكس</p>
-              <p dir="rtl" class="user-profession">جامعة حلب الحرة</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member3_name">د.مصطفى حاج ديبو</h2>
+              <p class="user-profession" data-translate-key="spec_mechatronics">هندسة الميكاترونكس</p>
+              <p class="user-profession" data-translate-key="uni_aleppo">جامعة حلب الحرة</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.عمر زكريا</h2>
-              <p dir="rtl" class="user-profession">الهندسة المعلوماتية</p>
-              <p dir="rtl" class="user-profession">جامعة حلب الحرة</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member4_name">د.عمر زكريا</h2>
+              <p class="user-profession" data-translate-key="spec_it">الهندسة المعلوماتية</p>
+              <p class="user-profession" data-translate-key="uni_aleppo">جامعة حلب الحرة</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.مهدي الكل</h2>
-              <p dir="rtl" class="user-profession">الإحصاء</p>
-              <p dir="rtl" class="user-profession">جامعة إدلب</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member5_name">د.مهدي الكل</h2>
+              <p class="user-profession" data-translate-key="spec_statistics">الإحصاء</p>
+              <p class="user-profession" data-translate-key="uni_idlib">جامعة إدلب</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.عز الدين قدور</h2>
-              <p dir="rtl" class="user-profession">القانون الدولي</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member6_name">د.عز الدين قدور</h2>
+              <p class="user-profession" data-translate-key="spec_int_law">القانون الدولي</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.وضاح رجب</h2>
-              <p dir="rtl" class="user-profession">الاقتصاد الإسلامي</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member7_name">د.وضاح رجب</h2>
+              <p class="user-profession" data-translate-key="spec_islamic_econ">الاقتصاد الإسلامي</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.راسم إيبش</h2>
-              <p dir="rtl" class="user-profession">إدارة</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member8_name">د.راسم إيبش</h2>
+              <p class="user-profession" data-translate-key="spec_management">إدارة</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.شهاب الملحم</h2>
-              <p dir="rtl" class="user-profession">هندسة بتروكيميائية</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member9_name">د.شهاب الملحم</h2>
+              <p class="user-profession" data-translate-key="spec_petrochem">هندسة بتروكيميائية</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.محمد أمين الزبداني</h2>
-              <p dir="rtl" class="user-profession">الهندسة المعلوماتية</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member10_name">د.محمد أمين الزبداني</h2>
+              <p class="user-profession" data-translate-key="spec_it">الهندسة المعلوماتية</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">أ.م.د عبادة التامر</h2>
-              <p dir="rtl" class="user-profession">علاقات دولية</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member11_name">أ.م.د عبادة التامر</h2>
+              <p class="user-profession" data-translate-key="spec_int_relations">علاقات دولية</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.هنادي العبد اللّه</h2>
-              <p dir="rtl" class="user-profession">الهندسة المعلوماتية</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member12_name">د.هنادي العبد اللّه</h2>
+              <p class="user-profession" data-translate-key="spec_it">الهندسة المعلوماتية</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_her">تواصل معها</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.عبدالقادر الرشواني</h2>
-              <p dir="rtl" class="user-profession">كيمياء</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member13_name">د.عبدالقادر الرشواني</h2>
+              <p class="user-profession" data-translate-key="spec_chemistry">كيمياء</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.محمد كتوع</h2>
-              <p dir="rtl" class="user-profession">الفقه وأصوله</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member14_name">د.محمد كتوع</h2>
+              <p class="user-profession" data-translate-key="spec_fiqh">الفقه وأصوله</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.إبراهيم محمد علي</h2>
-              <p dir="rtl" class="user-profession">قانون خاص</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member15_name">د.إبراهيم محمد علي</h2>
+              <p class="user-profession" data-translate-key="spec_private_law">قانون خاص</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
 
             <div class="cart-item swiper-slide">
-              <img
-                src="{% static 'images/logo-opacity.png' %}"
-                alt="صورة المستخدم"
-                class="user-image"
-              />
-              <h2 dir="rtl" class="user-name">د.عقبة العيسى</h2>
-              <p dir="rtl" class="user-profession">تسويق</p>
-              <p dir="rtl" class="user-profession">جامعة الشام</p>
-              <button class="message-button">تواصل معه</button>
+              <img src="{% static 'images/logo-opacity.png' %}" alt="User Image" class="user-image"/>
+              <h2 class="user-name" data-translate-key="team_member16_name">د.عقبة العيسى</h2>
+              <p class="user-profession" data-translate-key="spec_marketing">تسويق</p>
+              <p class="user-profession" data-translate-key="uni_sham">جامعة الشام</p>
+              <button class="message-button" data-translate-key="contact_him">تواصل معه</button>
             </div>
+
           </div>
-          <div class="swiper-slide-button swiper-button-prev"></div>
-          <div class="swiper-slide-button swiper-button-next"></div>
-          <div class="swiper-pagination swiper-pagination-designn"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-pagination"></div>
         </div>
       </section>
     </div>
 {% endblock %}
 
+{% block extra_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            slidesPerGroup: 3,
+            loop: true,
+            loopFillGroupWithBlank: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            breakpoints: {
+                // when window width is >= 320px
+                320: {
+                    slidesPerView: 1,
+                    slidesPerGroup: 1,
+                    spaceBetween: 10
+                },
+                // when window width is >= 768px
+                768: {
+                    slidesPerView: 2,
+                    slidesPerGroup: 2,
+                    spaceBetween: 20
+                },
+                // when window width is >= 1024px
+                1024: {
+                    slidesPerView: 3,
+                    slidesPerGroup: 3,
+                    spaceBetween: 30
+                }
+            }
+        });
+    </script>
+{% endblock %} 
