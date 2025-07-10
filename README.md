@@ -1,18 +1,17 @@
 <div align="center">
 
-# ✨ FilterStudio ✨
+# ✨ Sham Journal | مجلة شام ✨
 
-**تطبيق ويب متكامل لمعالجة الصور باستخدام Django و OpenCV، مع واجهة مستخدم عصرية وميزات مدعومة بالذكاء الاصطناعي.**
+**منصة أكاديمية متكاملة لنشر وإدارة الأبحاث العلمية، مبنية باستخدام Django مع دعم متعدد اللغات وتخزين سحابي.**
 
 <p align="center">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-  <img alt="Django" src="https://img.shields.io/badge/Django-4.2-092E20?style=for-the-badge&logo=django&logoColor=white"/>
-  <img alt="OpenCV" src="https://img.shields.io/badge/OpenCV-4.x-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white"/>
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+  <img alt="Django" src="https://img.shields.io/badge/Django-4.x-092E20?style=for-the-badge&logo=django&logoColor=white"/>
   <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"/>
+  <img alt="Supabase" src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"/>
   <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge"/>
 </p>
-
-[<img src="https://img.shields.io/badge/Live_Demo-Visit_Site-28a745?style=for-the-badge&logo=render" />](https://filterstudio.onrender.com/)
+[<img src="https://img.shields.io/badge/زيارة_الموقع-Live_Demo-28a745?style=for-the-badge&logo=render" />](https://shamjournal.onrender.com/)
 
 </div>
 
@@ -20,33 +19,35 @@
 
 ## 📸 معرض المشروع (Project Showcase)
 
-للحصول على أفضل انطباع، يرجى زيارة النسخة الحية من المشروع. يمكنك أيضاً مشاهدة هذا العرض السريع للواجهة الرئيسية:
+للحصول على أفضل انطباع، يرجى زيارة النسخة الحية من المشروع. يمكنك أيضاً مشاهدة هذه اللقطة للواجهة الرئيسية:
 
-[![FilterStudio Demo](https://i.imgur.com/uGkF9iR.png)](https://filterstudio.onrender.com/)
+[![Sham Journal Demo](https://i.imgur.com/cWbYp4L.png)](https://shamjournal.onrender.com/)
 
 
 ---
 
 ## 🚀 الميزات الرئيسية (Key Features)
 
-يقدم FilterStudio مجموعة متكاملة من الأدوات التي تلبي احتياجات المصممين والمصورين:
+تقدم مجلة شام نظاماً متكاملاً لإدارة المحتوى الأكاديمي والبحثي:
 
-*   **🔐 نظام مستخدمين آمن:**
-    *   تسجيل حساب جديد، تسجيل دخول وخروج.
-    *   استوديو شخصي لكل مستخدم لعرض وإدارة صوره الخاصة.
+*   **🔐 نظام أدوار متقدم (Advanced Role System):**
+    *   **الباحث (Researcher):** يمكنه تسجيل حساب، رفع الأبحاث، ومتابعة حالتها (قيد المراجعة، مقبول، مرفوض).
+    *   **الموافق (Approver):** يمتلك لوحة تحكم لمراجعة الأبحاث المقدمة، قبولها، رفضها، أو طلب تعديلات.
+    *   **المدير (Superuser):** يمتلك صلاحيات كاملة على الموقع من خلال لوحة تحكم Django.
 
-*   **⚡️ معاينة حية وتفاعلية:**
-    *   شاهد تأثير الفلاتر على صورتك **مباشرةً** قبل الحفظ، مما يوفر تجربة استخدام سلسة وسريعة.
+*   **⚙️ دورة حياة كاملة للأبحاث (Full Research Lifecycle):**
+    *   نظام رفع ملفات آمن ومنظم لكل باحث.
+    *   تتبع حالة البحث في كل مرحلة من مراحل المراجعة والنشر.
+    *   إشعارات ورسائل للمستخدمين عند تحديث حالة أبحاثهم.
 
-*   **🎨 فلاتر كلاسيكية وتفاعلية:**
-    *   **القص والتدوير:** تحكم كامل بأبعاد الصورة باستخدام أداة `Cropper.js` الاحترافية.
-    *   **الحدة والتعتيم:** أشرطة تمرير دقيقة للتحكم بقوة فلتر Sharpen وفلتر Blur.
-    *   **أساسيات الألوان:** فلاتر التدرج الرمادي (Grayscale) وعكس الألوان (Invert).
+*   **🌍 دعم متعدد اللغات (Multilingual Support):**
+    *   واجهة مستخدم تدعم اللغات **العربية، الإنجليزية، والتركية**.
+    *   نظام ترجمة من جانب العميل (Client-Side) باستخدام JavaScript لتجربة استخدام سريعة وسلسة دون إعادة تحميل الصفحة.
 
-*   **🧠 فلاتر كشف ذكية (OpenCV):**
-    *   **كشف دقيق لوجوه البشر:** باستخدام نموذج `haarcascade_frontalface_alt2.xml` المحسّن.
-    *   **كشف متقدم:** التعرف على وجوه القطط، العيون، والابتسامات باستخدام منطق البحث داخل الوجه لزيادة الدقة.
-    *   **كشف الأجسام:** التعرف على كامل الجسد، الجزء العلوي منه، ولوحات السيارات.
+*   **☁️ بنية تحتية سحابية حديثة (Modern Cloud Infrastructure):**
+    *   نشر المشروع بالكامل على منصة **Render** مع عمليات بناء ونشر تلقائية.
+    *   استخدام قاعدة بيانات **PostgreSQL** مُدارة عبر **Supabase**.
+    *   تخزين سحابي آمن للملفات (الأبحاث) باستخدام **Supabase Storage** المتوافق مع S3.
 
 ---
 
@@ -56,13 +57,12 @@
 
 | الفئة | التقنية |
 |---|---|
-| **الواجهة الخلفية (Backend)** | ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white) ![Django](https://img.shields.io/badge/-Django-092E20?style=flat-square&logo=django&logoColor=white) |
-| **الواجهة الأمامية (Frontend)** | ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/-Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white) ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) |
-| **معالجة الصور** | ![OpenCV](https://img.shields.io/badge/-OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white) ![Pillow](https://img.shields.io/badge/-Pillow-a8a8a8?style=flat-square) |
+| **الواجهة الخلفية (Backend)** | ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white) ![Django](https://img.shields.io/badge/-Django-092E20?style=flat-square&logo=django&logoColor=white) ![Gunicorn](https://img.shields.io/badge/-Gunicorn-499848?style=flat-square&logo=gunicorn&logoColor=white) |
+| **الواجهة الأمامية (Frontend)** | ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) |
 | **قاعدة البيانات** | ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![Supabase](https://img.shields.io/badge/-Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white) |
 | **تخزين الملفات** | ![Supabase Storage](https://img.shields.io/badge/-Supabase_Storage-3ECF8E?style=flat-square&logo=supabase&logoColor=white) |
-| **النشر (Deployment)** | ![Render](https://img.shields.io/badge/-Render-46E3B7?style=flat-square&logo=render&logoColor=white) |
-| **أدوات إضافية** | Cropper.js |
+| **النشر (Deployment)** | ![Render](https://img.shields.io/badge/-Render-46E3B7?style=flat-square&logo=render&logoColor=white) ![WhiteNoise](https://img.shields.io/badge/-WhiteNoise-FFFFFF?style=flat-square) |
+| **مكتبات أساسية** | `django-storages`, `dj-database-url`, `psycopg2-binary` |
 
 ---
 
@@ -72,8 +72,8 @@
 
 1.  **نسخ المستودع (Clone the repository):**
     ```bash
-    git clone https://github.com/77hamed77/FilterStudio.git
-    cd FilterStudio
+    git clone https://github.com/your-username/your-repo-name.git
+    cd your-repo-name
     ```
 
 2.  **إنشاء وتفعيل البيئة الافتراضية (Create and activate virtual environment):**
@@ -92,11 +92,16 @@
 
 4.  **إعداد متغيرات البيئة (Set up environment variables):**
     *   أنشئ ملفاً باسم `.env` في جذر المشروع.
-    *   أضف المتغيرات التالية إلى الملف مع قيمك الخاصة:
+    *   أضف المتغيرات التالية إلى الملف مع قيمك الخاصة من Supabase:
     ```env
-    SECRET_KEY=your_django_secret_key
-    DATABASE_URL=your_supabase_postgres_connection_url
-    CLOUDINARY_URL=your_supabase_storage_or_other_storage_url
+    SECRET_KEY='your_django_secret_key'
+    DEBUG=True
+    DATABASE_URL='your_supabase_postgres_connection_url'
+    AWS_ACCESS_KEY_ID='your_supabase_project_anon_public_key'
+    AWS_SECRET_ACCESS_KEY='your_supabase_project_service_role_secret_key'
+    AWS_STORAGE_BUCKET_NAME='your_supabase_bucket_name'
+    AWS_S3_ENDPOINT_URL='your_supabase_storage_endpoint_url'
+    AWS_S3_REGION_NAME='your_supabase_project_region'
     ```
 
 5.  **تطبيق التحديثات على قاعدة البيانات (Apply migrations):**
@@ -104,11 +109,16 @@
     python manage.py migrate
     ```
 
-6.  **تشغيل الخادم (Run the server):**
+6.  **إنشاء حساب مدير (Create a superuser):**
+    ```bash
+    python manage.py createsuperuser
+    ```
+
+7.  **تشغيل الخادم (Run the server):**
     ```bash
     python manage.py runserver
     ```
-    الآن يمكنك زيارة الموقع على `https://filterstudio.onrender.com`.
+    الآن يمكنك زيارة الموقع على `http://127.0.0.1:8000`.
 
 ---
 
