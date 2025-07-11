@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<!-- التعديل 1: جعل اللغة والاتجاه ديناميكيين بناءً على اللغة المختارة -->
+<!-- سيتم تحديث اللغة والاتجاه ديناميكياً بواسطة JavaScript -->
 <html lang="" dir="">
   <head>
     <meta charset="UTF-8" />
@@ -9,7 +9,6 @@
     <title>{% block title %}مجلة شام{% endblock %}</title>
 
     <!-- Core Stylesheets -->
-      <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
     <link rel="stylesheet" href="{% static 'CSS/style.css' %}" />
     <link rel="stylesheet" href="{% static 'CSS/header&footer.css' %}" />
     
@@ -23,16 +22,13 @@
   </head>
   <body>
 
-    <!-- Mouse Trail Effect -->
-    <div class="mouse-trail" id="mouseTrail"></div>
-
     <!-- ==================== HEADER ==================== -->
+    <!-- عدم عرض الهيدر المخصص في صفحات الأدمن -->
+    {% if not request.path|slice:":7" == "/admin/" %}
     <header class="main-header">
-      <!-- التعديل 2: دمج الهيدر في بنية واحدة مع شريط علوي وشريط رئيسي -->
       <!-- Top Bar -->
       <div class="header-top-bar">
         <div class="container">
-          <!-- التعديل 3: استخدام قائمة <ul> للروابط الاجتماعية لتحسين البنية -->
           <ul class="social-icons-list">
             <li><a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a></li>
             <li><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
@@ -59,50 +55,43 @@
         <div class="container">
           <a href="{% url 'portal:index' %}" class="logo-container" aria-label="Homepage">
             <div class="brand">
-              <span></span><span></span><span></span><span></span>
               <div class="logo-sham" style="background-image: url('{% static 'images/logo-opacity.png' %}');"></div>
             </div>
           </a>
 
-          <!-- التعديل 4: استخدام وسم <nav> للقائمة الرئيسية -->
-          <nav class="main-nav">
+          <nav class="main-nav" id="main-nav">
             <ul class="nav-links">
-              <li><a href="{% url 'portal:index' %}" data-translate-key="home">Home</a></li>
-              <li><a href="{% url 'portal:team_university' %}" data-translate-key="editorialBoard">Editorial Board</a></li>
-              <li><a href="{% url 'portal:roles' %}" data-translate-key="publicationRules">Publication Rules</a></li>
-              <li><a href="{% url 'portal:archef' %}" data-translate-key="journalArchive">Journal Archive</a></li>
-              <li><a href="{% url 'portal:contact' %}" data-translate-key="contactInformation">Contact Information</a></li>
+              <li><a href="{% url 'portal:index' %}" data-translate-key="home">الرئيسية</a></li>
+              <li><a href="{% url 'portal:team_university' %}" data-translate-key="editorialBoard">هيئة التحرير</a></li>
+              <li><a href="{% url 'portal:roles' %}" data-translate-key="publicationRules">قواعد النشر</a></li>
+              <li><a href="{% url 'portal:archef' %}" data-translate-key="journalArchive">أرشيف المجلة</a></li>
+              <li><a href="{% url 'portal:contact' %}" data-translate-key="contactInformation">معلومات الاتصال</a></li>
             </ul>
           </nav>
 
           <div class="header-actions">
-            <div class="language-switcher" id="language-switcher">
-              <!-- ... كود محول اللغة يبقى كما هو ... -->
-            </div>
-
             <div class="auth-buttons">
               {% if user.is_authenticated %}
                 {% if user.is_staff or user.is_superuser %}
-                  <a href="{% url 'portal:approver_dashboard' %}" class="btn-log" data-translate-key="adminDashboard">Admin Dashboard</a> ({{ user.username }})
+                  <a href="{% url 'portal:approver_dashboard' %}" class="btn-log" data-translate-key="adminDashboard">لوحة تحكم المسؤول</a> ({{ user.username }})
                 {% else %}
-                  <a href="{% url 'portal:researcher_dashboard' %}" class="btn-log" data-translate-key="researcherDashboard">Researcher Dashboard</a> ({{ user.username }})
+                  <a href="{% url 'portal:researcher_dashboard' %}" class="btn-log" data-translate-key="researcherDashboard">لوحة تحكم الباحث</a> ({{ user.username }})
                 {% endif %}
                 <form method="post" action="{% url 'portal:logout' %}" style="display: inline;">
                   {% csrf_token %}
-                  <!-- التعديل 5: إزالة الأنماط المضمنة واستخدام كلاس CSS بدلاً منها -->
-                  <button type="submit" class="btn-log btn-logout" data-translate-key="logout">Logout</button>
+                  <button type="submit" class="btn-log btn-logout" data-translate-key="logout">تسجيل الخروج</button>
                 </form>
               {% else %}
-                <a href="{% url 'portal:login' %}" class="btn-log" data-translate-key="login">Login</a>
-                <a href="{% url 'portal:register_researcher' %}" class="btn-log btn-register" data-translate-key="registerResearcher">Register Researcher</a>
+                <a href="{% url 'portal:login' %}" class="btn-log" data-translate-key="login">تسجيل الدخول</a>
+                <a href="{% url 'portal:register_researcher' %}" class="btn-log btn-register" data-translate-key="registerResearcher">تسجيل باحث</a>
               {% endif %}
             </div>
             
             <button id="theme-switch" class="btn-switch-mode" aria-label="Toggle Dark/Light Mode">
-              <!-- ... أيقونات SVG تبقى كما هي ... -->
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffee00"><path d="M480-267q-89 0-151-62t-62-151q0-89 62-151t151-62q89 0 151 62t62 151q0 89-62 151t-151 62ZM213-427H27v-106h186v106Zm720 0H747v-106h186v106Zm-427-320v-186h106v186H506Zm0 720v-186h106v186H506ZM257-631 137-748l74-76 115 118-69 75Zm492 494L635-253l69-75 119 116-74 75Zm-492-494 119-116 75 69-118 115-76-68Zm492 0-75-69 118-115 75 69-118 115Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#12002e"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/></svg>
             </button>
 
-            <!-- التعديل 6: إضافة زر القائمة المنسدلة (سيكون مخفياً على الشاشات الكبيرة) -->
             <button class="nav-toggle" id="nav-toggle" aria-label="Open Menu">
               <i class="fa-solid fa-bars"></i>
             </button>
@@ -110,6 +99,8 @@
         </div>
       </div>
     </header>
+    {% endif %}
+    <!-- ==================== END HEADER ==================== -->
 
     <!-- ==================== MAIN CONTENT ==================== -->
     <main class="main-content-area">
@@ -129,51 +120,70 @@
     </main>
 
     <!-- ==================== FOOTER ==================== -->
+    <!-- عدم عرض الفوتر المخصص في صفحات الأدمن -->
+    {% if not request.path|slice:":7" == "/admin/" %}
     <footer class="main-footer">
       <div class="container">
         <div class="footer-col">
           <img src="{% static 'images/logo-opacity.png' %}" alt="Transparent Journal Logo" class="logo" />
-          <p data-translate-key="weHope">We hope you enjoyed browsing our journal...</p>
+          <p data-translate-key="weHope">نتمنى أن تكونوا قد سعدتم بزيارتكم للمجلة، ولا تنسونا من صالح دعائكم.</p>
         </div>
         <div class="footer-col">
-          <h3><span data-translate-key="shamUniversityLocation">Sham University Location</span><div class="underline"><span></span></div></h3>
-          <p data-translate-key="syria">Syria</p>
-          <p data-translate-key="aleppoAzaz">Aleppo, Azaz</p>
-          <p data-translate-key="rayanCamp">Rayan Camp</p>
-          <p class="email-id">unvalsham@gmail.com</p>
-          <h4>+905367835740</h4>
+          <h3><span data-translate-key="shamUniversityLocation">موقع جامعة الشام</span><div class="underline"><span></span></div></h3>
+          <p data-translate-key="syria">سوريا</p>
+          <p data-translate-key="aleppoAzaz">حلب, إعزاز</p>
+          <p data-translate-key="rayanCamp">مخيم الريان</p>
         </div>
         <div class="footer-col">
-          <h3><span data-translate-key="links">Links</span><div class="underline"><span></span></div></h3>
-          <!-- التعديل 7: استخدام قائمة <ul> للروابط في الفوتر -->
+          <h3><span data-translate-key="links">روابط سريعة</span><div class="underline"><span></span></div></h3>
           <ul class="footer-links">
-            <li><a href="{% url 'portal:index' %}" data-translate-key="home">Home</a></li>
-            <li><a href="{% url 'portal:team_university' %}" data-translate-key="editorialBoard">Editorial Board</a></li>
-            <li><a href="{% url 'portal:roles' %}" data-translate-key="publicationRules">Publication Rules</a></li>
-            <li><a href="{% url 'portal:archef' %}" data-translate-key="journalArchive">Journal Archive</a></li>
-            <li><a href="{% url 'portal:contact' %}" data-translate-key="contactInformation">Contact Information</a></li>
+            <li><a href="{% url 'portal:index' %}" data-translate-key="home">الرئيسية</a></li>
+            <li><a href="{% url 'portal:team_university' %}" data-translate-key="editorialBoard">هيئة التحرير</a></li>
+            <li><a href="{% url 'portal:roles' %}" data-translate-key="publicationRules">قواعد النشر</a></li>
+            <li><a href="{% url 'portal:archef' %}" data-translate-key="journalArchive">أرشيف المجلة</a></li>
+            <li><a href="{% url 'portal:contact' %}" data-translate-key="contactInformation">معلومات الاتصال</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h3><span data-translate-key="tellUsOpinion">Tell Us Your Opinion</span><div class="underline"><span></span></div></h3>
+          <h3><span data-translate-key="tellUsOpinion">أخبرنا برأيك</span><div class="underline"><span></span></div></h3>
           <form method="POST" action="{% url 'portal:index' %}" class="feedback-form">
             {% csrf_token %}
             <i class="fa-solid fa-envelope"></i>
-            <input type="email" name="feedback_email" required data-translate-key="enterEmail" data-translate-type="placeholder" />
+            <input type="email" name="feedback_email" required data-translate-key="enterEmail" data-translate-type="placeholder" placeholder="أدخل بريدك الإلكتروني" />
             <button type="submit" aria-label="Send"><i class="fa-solid fa-arrow-right"></i></button>
           </form>
-          <ul class="social-icons-list">
-            <!-- ... أيقونات التواصل الاجتماعي ... -->
-          </ul>
+          
+          <!-- محول اللغة في الفوتر -->
+          <div class="language-switcher" id="language-switcher">
+            <button class="selected-language" id="language-switcher-button" aria-label="Change Language">
+              <img id="selected-flag" src="{% static 'images/flags/sa.svg.png' %}" alt="Selected Language">
+              <span id="selected-lang-text">العربية</span>
+            </button>
+            <ul class="language-options" id="language-options">
+              <li data-lang="ar">
+                <img src="{% static 'images/flags/sa.svg.png' %}" alt="Arabic">
+                <span data-translate-key="lang_ar">العربية</span>
+              </li>
+              <li data-lang="en">
+                <img src="{% static 'images/flags/us.svg' %}" alt="English">
+                <span data-translate-key="lang_en">English</span>
+              </li>
+              <li data-lang="tr">
+                <img src="{% static 'images/flags/tr.svg.png' %}" alt="Turkish">
+                <span data-translate-key="lang_tr">Türkçe</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <hr />
         <p class="copyright" data-translate-key="copyright">
-          Sham International University © {% now "Y" %} - All rights reserved
+          جامعة الشام العالمية © {% now "Y" %} - كل الحقوق محفوظة
         </p>
       </div>
     </footer>
+    {% endif %}
+    <!-- ==================== END FOOTER ==================== -->
     
     <!-- ==================== SCRIPTS ==================== -->
     <!-- Libraries -->
@@ -185,6 +195,39 @@
     <script src="{% static 'js/language.js' %}" defer></script>
     <script src="{% static 'js/script.js' %}" defer></script>
     
+    <!-- سكربت تفعيل القائمة المنسدلة ومحول اللغة -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // تفعيل القائمة المنسدلة (Hamburger Menu)
+        const navToggle = document.getElementById('nav-toggle');
+        const mainNav = document.getElementById('main-nav');
+
+        if (navToggle && mainNav) {
+          navToggle.addEventListener('click', function () {
+            mainNav.classList.toggle('active');
+            const icon = navToggle.querySelector('i');
+            icon.className = mainNav.classList.contains('active') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+          });
+        }
+
+        // تفعيل محول اللغة
+        const langSwitcher = document.getElementById('language-switcher');
+        if(langSwitcher) {
+            const langButton = langSwitcher.querySelector('#language-switcher-button');
+            const langOptions = langSwitcher.querySelector('#language-options');
+
+            langButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                langSwitcher.classList.toggle('active');
+            });
+
+            document.addEventListener('click', () => {
+                langSwitcher.classList.remove('active');
+            });
+        }
+      });
+    </script>
+
     <!-- Page-specific scripts -->
     {% block extra_scripts %}
     {% endblock %}
