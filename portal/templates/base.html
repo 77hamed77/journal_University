@@ -105,6 +105,28 @@
           <a href="{% url 'portal:archef' %}" data-translate-key="journalArchive">Journal Archive</a>
           <a href="{% url 'portal:contact' %}" data-translate-key="contactInformation">Contact Information</a>
           <a href="{% url 'portal:login' %}" class="log-in-mobile btn-log btnLogUp" data-translate-key="login">Login</a>
+          <div class="language-switcher" id="language-switcher">
+            <button class="selected-language" id="language-switcher-button" aria-label="Change Language">
+              <img id="selected-flag" src="{% static 'images/flags/sa.svg.png' %}" alt="Selected Language" style="width: 20px; height: 15px;">
+              <span id="selected-lang-text">العربية</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <ul class="language-options" id="language-options">
+              <li data-lang="ar">
+                <img src="{% static 'images/flags/sa.svg.png' %}" alt="Arabic" style="width: 20px; height: 15px;">
+                <span data-translate-key="lang_ar">العربية</span>
+              </li>
+              <li data-lang="en">
+                <img src="{% static 'images/flags/us.svg' %}" alt="English" style="width: 20px; height: 15px;">
+                <span data-translate-key="lang_en">English</span>
+              </li>
+              <li data-lang="tr">
+                <img src="{% static 'images/flags/tr.svg.png' %}" alt="Turkish" style="width: 20px; height: 15px;">
+                <span data-translate-key="lang_tr">Türkçe</span>
+              </li>
+            </ul>
+          </div>
+
         </div>
         <div class="btn">
           <i class="fa-solid fa-bars menu-btn"></i>
