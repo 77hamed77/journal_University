@@ -626,6 +626,12 @@ header .btn {
     .log-in-mobile {
         display: none;
     }
+    .language-switcher-mobile {
+        display: none;
+    }
+    .btn-switch-mode {
+        display: none;
+    }
 }
 
 @media (max-width: 1060px) {
@@ -662,7 +668,7 @@ header .btn {
     header .menu a {
         display: block;
         font-size: 20px;
-        margin: 20px;
+        margin: 5px;
         padding: 10px 20px;
         background-color: transparent;
     }
