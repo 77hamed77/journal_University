@@ -1,240 +1,302 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html lang="" dir="">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="ar" dir="rtl">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}مجلة شام{% endblock %}</title>
+    <!-- روابط CSS الأساسية -->
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}" /> <!-- أنماطك العامة -->
+    <link rel="stylesheet" href="{% static 'CSS/all.css' %}" /> <!-- Font Awesome أو ما شابه -->
+    <link rel="stylesheet" href="{% static 'CSS/header&footer.css' %}" /> <!-- أنماط خاصة بالهيدر والفوتر -->
+    
+    <!-- رابط Bootstrap إذا كنت ستستخدمه (يبدو أن الهيدر الحالي لا يعتمد عليه بشكل مباشر) -->
+    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}"> -->
 
-    <!-- تحميل الخطوط والأيقونات الأساسية -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- تحميل ملفات CSS الخاصة بالمشروع -->
-    <link rel="stylesheet" href="{% static 'CSS/header&footer.css' %}">
-    
-    <!-- قسم مخصص لإضافة CSS إضافي من الصفحات الأخرى -->
-    {% block extra_head %}{% endblock %}
-</head>
-<body class="light-mode"> <!-- ابدأ بالوضع العادي كافتراضي -->
-
-    <!-- طبقة التظليل للقائمة المنسدلة -->
-    <div class="mobile-overlay" id="mobile-overlay"></div>
-    
-    <!-- الهيدر الكامل - لن يظهر في صفحات الأدمن -->
-    {% if not request.path|slice:":7" == "/admin/" %}
-    <header class="main-header">
-        <!-- الشريط العلوي -->
-        <div class="header-top-bar">
-            <div class="container">
-                <ul class="social-icons-list">
-                    <li><a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a></li>
-                    <li><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
-                    <li><a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a></li>
-                    <li><a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></li>
-                    <li><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
-                    <li><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a></li>
-                </ul>
-                <div class="contact-info">
-                    <a href="mailto:unvalsham@gmail.com" class="contact-link">
-                        <i class="fa-solid fa-envelope"></i>
-                        <span>unvalsham@gmail.com</span>
-                    </a>
-                    <a href="tel:+905367835740" class="contact-link">
-                        <i class="fa-brands fa-whatsapp"></i>
-                        <span>+905367835740</span>
-                    </a>
-                </div>
-            </div>
+    <!-- Swiper CSS (مستخدم في بعض الصفحات الفرعية، جيد أن يكون هنا إذا كان شائع الاستخدام) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
+      rel="stylesheet"
+    />
+    {% block extra_head %}{% endblock %} <!-- لإضافة CSS أو meta خاصة بكل صفحة فرعية -->
+  </head>
+  <body>
+    <!-- =====start header one (الجديد) =====  -->
+    <div class="header1" style="direction:ltr">
+      <div class="content-header1">
+        <!-- part 1 -->
+        <div class="icons-socheal">
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-twitter items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-tiktok items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-linkedin-in items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-youtube items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-instagram items-socheal-icon"></i
+            ></a>
+          </div>
+          <div class="item-icon">
+            <a href="#"
+              ><i class="fa-brands fa-facebook-f items-socheal-icon"></i
+            ></a>
+          </div>
         </div>
 
-        <!-- الهيدر الرئيسي -->
-        <div class="header-main">
-            <div class="container">
-                <a href="{% url 'portal:index' %}" class="logo-container" aria-label="Homepage">
-                    <img src="{% static 'images/logo-opacity.png' %}" alt="شعار مجلة شام" class="logo-sham">
-                </a>
-
-                <!-- قائمة التنقل الأساسية (للشاشات الكبيرة) -->
-                <nav class="main-nav">
-                    <ul class="nav-links">
-                        <li><a href="{% url 'portal:index' %}" class="active" data-translate-key="home">الرئيسية</a></li>
-                        <li><a href="{% url 'portal:team_university' %}" data-translate-key="editorialBoard">هيئة التحرير</a></li>
-                        <li><a href="{% url 'portal:roles' %}" data-translate-key="publicationRules">قواعد النشر</a></li>
-                        <li><a href="{% url 'portal:archef' %}" data-translate-key="journalArchive">أرشيف المجلة</a></li>
-                        <li><a href="{% url 'portal:contact' %}" data-translate-key="contactInformation">معلومات الاتصال</a></li>
-                    </ul>
-                </nav>
-
-                <!-- أزرار الهيدر -->
-                <div class="header-actions">
-                    <div class="auth-buttons">
-                        {% if user.is_authenticated %}
-                            <a href="#" class="user-greeting" data-translate-key="helloUser">مرحباً, {{ user.username }}</a>
-                            <form method="post" action="{% url 'portal:logout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-log btn-logout" data-translate-key="logout">خروج</button>
-                            </form>
-                        {% else %}
-                            <a href="{% url 'portal:login' %}" class="btn-log btn-secondary" data-translate-key="login">تسجيل الدخول</a>
-                            <a href="{% url 'portal:register_researcher' %}" class="btn-log btn-primary" data-translate-key="registerResearcher">تسجيل باحث</a>
-                        {% endif %}
-                    </div>
-                    
-                    <button class="btn-switch-mode" id="theme-switch" aria-label="Toggle Dark/Light Mode">
-                        <i class="fa-solid fa-sun"></i> <!-- Sun icon for light mode -->
-                        <i class="fa-solid fa-moon"></i> <!-- Moon icon for dark mode -->
-                    </button>
-
-                    <button class="nav-toggle" id="nav-toggle" aria-label="Open Menu">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                </div>
+        <!-- part 2 -->
+        <div class="contact-with">
+          <div class="email-contact">
+            <div class="box-email">
+              <a href="mailto:info@marketmarkt.com"> <h2 class="email-text">info@marketmarkt.com</h2></a>
             </div>
-        </div>
-    </header>
+            <div class="box-icon-email">
+              <a href="mailto:info@marketmarkt.com"
+                ><i class="fa-solid fa-envelope items-contact-icon"></i
+              ></a>
+            </div>
+          </div>
 
-    <!-- القائمة المنسدلة للهاتف (مخفية بشكل افتراضي) -->
-    <nav class="main-nav-mobile" id="main-nav-mobile">
-        <ul class="nav-links-mobile">
-            <li><a href="{% url 'portal:index' %}" class="active" data-translate-key="home">الرئيسية</a></li>
-            <li><a href="{% url 'portal:team_university' %}" data-translate-key="editorialBoard">هيئة التحرير</a></li>
-            <li><a href="{% url 'portal:roles' %}" data-translate-key="publicationRules">قواعد النشر</a></li>
-            <li><a href="{% url 'portal:archef' %}" data-translate-key="journalArchive">أرشيف المجلة</a></li>
-            <li><a href="{% url 'portal:contact' %}" data-translate-key="contactInformation">معلومات الاتصال</a></li>
-        </ul>
-        <div class="auth-buttons-mobile">
-            {% if user.is_authenticated %}
-                <a href="#" class="user-greeting" data-translate-key="helloUser">مرحباً, {{ user.username }}</a>
-                <form method="post" action="{% url 'portal:logout' %}">
+          <div class="number-contact">
+            <div class="box-number">
+              <a href="https://wa.me/905511550250" target="_blank"><h2 class="number-text">+905511550250</h2></a>
+            </div>
+            <div class="box-icon-number">
+              <a href="https://wa.me/905511550250" target="_blank"
+                ><i class="fa-brands fa-whatsapp items-contact-icon"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- =====end header one=====  -->
+
+    <!-- =====start header two (الجديد) =====  -->
+    <header style="direction:ltr">
+      <div class="part2-them-and-logInUp">
+        <div class="logInUp">
+          <!-- start languages dropDown-->
+          <div class="lang-menu">
+            <div class="selected-lang">
+              <img
+                class="img-flag"
+                src="https://flagsapi.com/SA/shiny/64.png" 
+                alt="Arabic Flag"
+              />
+              <a class="lan-ar" style="display: inline-block" href="#" value="er"
+                >العربية</a
+              >
+            </div>
+            <ul>
+              <li class="lan-en">
+                <img
+                  class="img-flag"
+                  src="https://flagsapi.com/US/shiny/64.png" 
+                  alt="English Flag"
+                />
+                <a href="#" value="en">English</a>
+              </li>
+              <li class="lan-tr">
+                <img
+                  class="img-flag"
+                  src="https://flagsapi.com/TR/shiny/64.png" 
+                  alt="Turkish Flag"
+                />
+                <a href="#" value="tr">Türkçe</a>
+              </li>
+            </ul>
+          </div>
+          <!-- end languages dropDown-->
+
+          {% if user.is_authenticated %}
+            {% if user.is_staff %}
+                <a href="{% url 'portal:approver_dashboard' %}" class="btn-log btnLogUp">لوحة تحكم المسؤول ({{ user.username }})</a>
+                <form method="post" action="{% url 'portal:logout' %}" style="display: inline;">
                     {% csrf_token %}
-                    <button type="submit" class="btn-log btn-logout" data-translate-key="logout">خروج</button>
+                    <button type="submit" class="btn-log btnLogUp" style="background: #dc3545; margin-right: 5px;">تسجيل الخروج</button>
                 </form>
             {% else %}
-                <a href="{% url 'portal:login' %}" class="btn-log btn-secondary" data-translate-key="login">تسجيل الدخول</a>
-                <a href="{% url 'portal:register_researcher' %}" class="btn-log btn-primary" data-translate-key="registerResearcher">تسجيل باحث</a>
+                 <a href="{% url 'portal:researcher_dashboard' %}" class="btn-log btnLogUp">لوحة تحكم الباحث ({{ user.username }})</a>
+                 <form method="post" action="{% url 'portal:logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-log btnLogUp" style="background: #dc3545; margin-right: 5px;">تسجيل الخروج</button>
+                </form>
             {% endif %}
+          {% else %}
+            <a href="{% url 'portal:login' %}" class="btn-log btnLogUp">تسجيل دخول</a>
+            <a href="{% url 'portal:register_researcher' %}" class="btn-log btnLogUp" style="margin-right: 5px; background-color: #28a745;">تسجيل باحث</a>
+          {% endif %}
         </div>
-    </nav>
-    {% endif %}
+        <!-- change mode -->
+        <button id="theme-switch" class="btn-switch-mode">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#ffee00"
+          >
+            <path
+              d="M480-267q-89 0-151-62t-62-151q0-89 62-151t151-62q89 0 151 62t62 151q0 89-62 151t-151 62ZM213-427H27v-106h186v106Zm720 0H747v-106h186v106ZM427-747v-186h106v186H427Zm0 720v-186h106v186H427ZM257-631 137-748l74-76 115 118-69 75Zm492 494L635-253l69-75 119 116-74 75ZM631-703l117-120 76 74-118 115-75-69ZM137-212l116-113 75 69-116 119-75-75Z"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#12002e"
+          >
+            <path
+              d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"
+            />
+          </svg>
+        </button>
+      </div>
+      <!-- /part2-them-and-logInUp -->
 
-    <!-- المحتوى الرئيسي للصفحات -->
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+      <div class="part1-listItems-and-logo">
+        <div dir="rtl" class="menu">
+          <div class="btn-menu">
+            <i class="fa-solid fa-xmark close-btn"></i>
+          </div>
+          <a id="link01-header" href="{% url 'portal:index' %}" class="txt-main">الرئيسية</a>
+          <a id="link02-header" href="{% url 'portal:team_university' %}">هيئة التحرير</a>
+          <a id="link03-header" href="{% url 'portal:roles' %}">قواعد النشر</a>
+          <a id="link04-header" href="{% url 'portal:archef' %}">أرشيف المجلة</a>
+          <a id="link05-header" href="{% url 'portal:contact' %}">معلومات الاتصال</a>
+          <a href="{% url 'portal:login' %}" class="log-in-mobile btn-log btnLogUp">تسجيل دخول</a>
+        </div>
+        <div class="btn">
+          <i class="fa-solid fa-bars menu-btn"></i>
+        </div>
 
-    <!-- الفوتر الكامل - لن يظهر في صفحات الأدمن -->
-    {% if not request.path|slice:":7" == "/admin/" %}
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-col">
-                <img src="{% static 'images/logo-opacity.png' %}" alt="شعار المجلة" class="logo-footer"/>
-                <p data-translate-key="weHope">نتمنى أن تكونوا قد سعدتم بزيارتكم للمجلة، ولا تنسونا من صالح دعائكم.</p>
-            </div>
-            
-            <div class="footer-col">
-                <h3>روابط سريعة</h3>
-                <ul class="footer-links">
-                    <li><a href="#">الرئيسية</a></li>
-                    <li><a href="#">هيئة التحرير</a></li>
-                    <li><a href="#">قواعد النشر</a></li>
-                    <li><a href="#">أرشيف المجلة</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-col">
-                <h3>التواصل</h3>
-                <p><strong>العنوان:</strong> سوريا، حلب، اعزاز</p>
-                <p><strong>الإيميل:</strong> <a href="mailto:unvalsham@gmail.com">unvalsham@gmail.com</a></p>
-                <p><strong>الهاتف:</strong> <a href="tel:+905367835740">+905367835740</a></p>
-            </div>
-
-            <div class="footer-col">
-                <h3>محول اللغة</h3>
-                <div class="language-switcher" id="language-switcher">
-                    <button class="selected-language">
-                        <img src="{% static 'images/flags/sa.svg.png' %}" alt="العربية" />
-                        <span>العربية</span>
-                        <i class="fa-solid fa-chevron-up"></i>
-                    </button>
-                    <ul class="language-options">
-                        <li data-lang="ar"><img src="{% static 'images/flags/sa.svg.png' %}" alt="Arabic" /><span>العربية</span></li>
-                        <li data-lang="en"><img src="{% static 'images/flags/us.svg' %}" alt="English" /><span>English</span></li>
-                        <li data-lang="tr"><img src="{% static 'images/flags/tr.svg.png' %}" alt="Turkish" /><span>Türkçe</span></li>
-                    </ul>
+        <a href="{% url 'portal:index' %}" id="logoo"
+          ><div class="brand">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <div class="logo-sham" style="background-image: url('{% static 'images/logo-opacity.png' %}');">
+              <!-- لا تحتاج لمحتوى هنا لأن الصورة كخلفية -->
+          </div>
+            </div
+        ></a>
+      </div>
+    </header>
+    <!-- =====end header two=====  -->
+<!-- وسم main الآن سيكون حاويًا للمحتوى الديناميكي والرسائل -->
+<main class="container mt-4"> <!-- يمكنك تعديل هذه الكلاسات إذا كان الهيدر الجديد لا يتطلب Bootstrap -->
+    {% if messages %}
+        <div class="messages-container"> {# حاوية جديدة مخصصة للرسائل #}
+            {% for message in messages %}
+                <div class="custom-message {{ message.tags }}"> {# الكلاس الأساسي وكلاسات Django #}
+                    <span style="color:#ffffff;">{{ message }}</span>
+                    {# زر إغلاق مخصص #}
+                    <button type="button" class="close-message-btn" onclick="this.parentElement.style.display='none';">×</button>
                 </div>
-            </div>
+            {% endfor %}
         </div>
-        <div class="footer-bottom">
-            <p class="copyright" data-translate-key="copyright">© {% now "Y" %} مجلة شام. جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
     {% endif %}
 
-    <!-- تحميل السكريبتات في نهاية الصفحة لتحسين الأداء -->
-    <script src="{% static 'js/language.js' %}" defer></script>
+    {% block content %}
+    <!-- محتوى الصفحات الفرعية سيأتي هنا -->
+    {% endblock %}
+</main>
 
-    <!-- سكربت مدمج للوظائف الأساسية للواجهة -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // === الحصول على العناصر ===
-            const themeSwitch = document.getElementById('theme-switch');
-            const navToggle = document.getElementById('nav-toggle');
-            const mobileNav = document.getElementById('main-nav-mobile');
-            const mobileOverlay = document.getElementById('mobile-overlay');
-            const languageSwitcher = document.getElementById('language-switcher');
-            
-            // === التحكم بالوضع الليلي ===
-            themeSwitch.addEventListener('click', function() {
-                document.body.classList.toggle('dark-mode');
-                // حفظ اختيار المستخدم
-                if (document.body.classList.contains('dark-mode')) {
-                    localStorage.setItem('theme', 'dark-mode');
-                } else {
-                    localStorage.removeItem('theme');
-                }
-            });
-            // استعادة الوضع عند تحميل الصفحة
-            if (localStorage.getItem('theme') === 'dark-mode') {
-                document.body.classList.add('dark-mode');
-            }
+    <!-- Footer الجديد -->
+    <footer>
+      <div class="row">
+        <div class="col">
+          <img src="{% static 'images/logo-opacity.png' %}" alt="شعار المجلة الشفاف" class="logo" />
+          <p dir="rtl">
+            نتمنى أن تكونوا قد سعدتم بزيارتكم بتصفح المجلة و لاتنسونا من صالح
+            دعاؤكم
+          </p>
+        </div>
+        <div class="col">
+          <h3 dir="rtl">
+            موقع جامعة الشام
+            <div class="underline"><span></span></div>
+          </h3>
+          <p>سوريا</p>
+          <p>حلب, إعزاز</p>
+          <p>مخيم الريان</p>
+          <p class="email-id">univercitysham@gimal.com</p> <!-- تأكد من صحة الإيميل -->
+          <h4>+90 - 0123456789</h4>
+        </div>
+        <div class="col">
+          <h3 dir="rtl">
+            الروابط
+            <div class="underline"><span></span></div>
+          </h3>
+          <ul>
+            <li><a dir="rtl" href="{% url 'portal:index' %}">الرئيسية</a></li>
+            <li><a dir="rtl" href="{% url 'portal:team_university' %}">هيئة التحرير</a></li>
+            <li><a dir="rtl" href="{% url 'portal:roles' %}">قواعد النشر</a></li>
+            <li><a dir="rtl" href="{% url 'portal:archef' %}">أرشيف المجلة</a></li>
+            <li><a dir="rtl" href="{% url 'portal:contact' %}">معلومات الاتصال</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 dir="rtl">
+            أخبرنا برأيك حول المجلة
+            <div class="underline"><span></span></div>
+          </h3>
+          <form method="POST" action="{% url 'portal:index' %}"> <!-- عدّل action إلى المسار الصحيح لمعالجة الفورم -->
+            {% csrf_token %}
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" name="feedback_email" placeholder="Enter your email" required />
+            <button type="submit">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </form>
+          <div class="social-icons">
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-telegram"></i></a>
+            <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="bootom-copyright">
+        <hr />
+        <p class="copyright">
+          جامعة الشام العالمية © {% now "Y" %} - كل الحقوق محفوظة لدى الجامعة
+        </p>
+      </div>
+    </footer>
+    
+    <!-- روابط JS الأساسية -->
+    <script type="text/javascript" src="{% static 'js/darkmode.js' %}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 
-            // === التحكم بالقائمة المنسدلة للهاتف ===
-            function toggleMobileMenu(forceClose = false) {
-                const isActive = document.body.classList.contains('menu-active');
-                if (forceClose || isActive) {
-                    document.body.classList.remove('menu-active');
-                    navToggle.querySelector('i').className = 'fa-solid fa-bars';
-                } else {
-                    document.body.classList.add('menu-active');
-                    navToggle.querySelector('i').className = 'fa-solid fa-xmark';
-                }
-            }
-
-            navToggle.addEventListener('click', (e) => { e.stopPropagation(); toggleMobileMenu(); });
-            mobileOverlay.addEventListener('click', () => toggleMobileMenu(true));
-            mobileNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => toggleMobileMenu(true));
-            });
-
-            // === التحكم بمحول اللغة ===
-            if (languageSwitcher) {
-                const langButton = languageSwitcher.querySelector('.selected-language');
-                langButton.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    languageSwitcher.classList.toggle('active');
-                });
-            }
-            // إغلاق قائمة اللغة عند النقر في أي مكان آخر
-            document.addEventListener('click', () => {
-                if (languageSwitcher) languageSwitcher.classList.remove('active');
-            });
-        });
-    </script>
-
-    <!-- قسم مخصص لسكريبتات إضافية من الصفحات الأخرى -->
-    {% block extra_scripts %}{% endblock %}
-
-</body>
+    {% block extra_scripts %}
+    {% endblock %} <!-- لإضافة JS خاص بكل صفحة فرعية -->
+  </body>
 </html>
